@@ -4,7 +4,8 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import { Link, Outlet } from 'react-router-dom'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, Button } from '@chakra-ui/react'
+import { Navbar } from './components/navbar'
 
 function App() {
 
@@ -13,6 +14,8 @@ function App() {
     <ChakraProvider>
         <div>
           {/* <h1>Welcome to the App!</h1> */}
+          {/* <Button>Button</Button> */}
+          <Navbar/>
           <Outlet />
       </div>
     </ChakraProvider>
