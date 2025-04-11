@@ -3,24 +3,22 @@
 import { VStack, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { useState } from 'react'
 // import login function from API endpoint module
-import { login } from '../endpoints/auth_api'
-import { useNavigate } from 'react-router-dom'
+// import { login } from '../endpoints/auth_api'
+import { register } from '../endpoints/auth_api'
 
-const LoginPage = () => {
+const RegisterPage = () => {
 
   // local state for storing user input
   const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const nav= useNavigate()
+
   
-  // handle login button click
-  const handleLogin = () => {
-    login(username, password)
+  // handle register button click
+  const handleRegister = () => {
+    register(username, email, password)
   }
 
-  const handleNav = () => {
-    nav('/register')
-  }
 
   return (
     // onChange updates state on input change
@@ -33,15 +31,20 @@ const LoginPage = () => {
           type='text' />
       </FormControl>
       <FormControl>
+        <FormLabel>Email</FormLabel>
+        <Input onChange={(e) => setEmail(e.target.value)} 
+          value={email}
+          type='text' />
+      </FormControl>
+      <FormControl>
         <FormLabel>Password</FormLabel>
         <Input onChange={(e) => setPassword(e.target.value)} 
           value={password}
           type='password' />
       </FormControl>
-      <Button onClick={handleLogin}>Login</Button>
-      <Text onClick={handleNav}>Don't have an account? Sign up</Text>
+      <Button onClick={handleRegister}>Register</Button>
     </VStack>
   )
 }
 
-export default LoginPage;
+export default RegisterPage;

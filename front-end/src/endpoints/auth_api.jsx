@@ -6,7 +6,8 @@ const LOGIN_URL = `${BASE_URL}api/users/token/`
 const REFRESH_URL = `${BASE_URL}api/users/token/refresh/`
 const NOTES_URL = `${BASE_URL}api/users/notes/`
 const LOGOUT_URL = `${BASE_URL}api/users/logout/`
-
+const AUTH_URL = `${BASE_URL}api/users/authenticated/`
+const REGISTER_URL = `${BASE_URL}api/users/register/`
 // takes in username and password, sends to backend for authentication
 // tested by going to application/cookies and seeing access and refresh token
 // in google developer tools
@@ -80,6 +81,24 @@ export const logout = async () => {
     console.error("Logout failed:", error);
     return false; // Return false if refresh failed
   }
+}
+
+export const is_authenticated = async () => {
+  try {
+    await axios.post(AUTH_URL, {}, {withCredentials: true})
+    return true
+  } catch (error) {
+    console.error("Is not authenticated:", error)
+    return false
+  }
+}
+
+export const register = async (username, email, password) => {
+  const response = axios.post(REGISTER_URL, 
+    {username:username, email:email, password:password},
+    { withCredentials:true}
+  )
+  return response.data
 }
 
 
