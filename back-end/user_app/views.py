@@ -47,35 +47,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             return Response({'success': False})
 
 
-# custom class to retreive refresh token and set as new access token
-class CustomRefreshTokenView(TokenRefreshView):
-    def post(self, request, *args, **kwargs):
-        try:
-            # retreive refresh token from cookies
-            refresh_token = request.COOKIES.get('refresh_token')
-            # add refresh token to request data
-            request.data['refresh'] = refresh_token
-            # call parent class 'post' method to get new access token
-            # based on refresh token
-            response = super().post(request, *args, **kwargs)
-            
-            # create response with success data
-            res = Response({'refreshed': True})
-            # et new access token in cookes for subsequent requests
-            res.set_cookie(
-                key='access_token',
-                value=response.data['access'],
-                httponly=True,
-                secure=True,
-                samesite='None',
-                path='/',
-            )
-            # return the success response with cookies set
-            return res
-        except:
-            return Response({'refreshed': False})
-
-
 @api_view(['POST'])
 def Log_out(request):
     try:
@@ -86,12 +57,6 @@ def Log_out(request):
         return res
     except:
         return Response({'success': False})
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def Is_authenticated(request):
-    return Response({'authenticated': True})
 
 
 # {"username": "add username", "email": "add email": "password": "add password"}
