@@ -8,6 +8,7 @@ import MenuPage from './auth_pages/MenuPage'
 import LoginPage from "./auth_pages/LoginPage"
 import RegisterPage from './auth_pages/RegisterPage'
 import ProtectedRoutes from './components/utilities/ProtectedRoutes'
+import Error404Page from "./auth_pages/Error404Page"
 
 const router = createBrowserRouter([
   {
@@ -46,8 +47,9 @@ const router = createBrowserRouter([
             element: <MenuPage/>
           }
         ]
-      }
+      },
     ],
+    errorElement: <Error404Page />,
   },
 ]);
 
