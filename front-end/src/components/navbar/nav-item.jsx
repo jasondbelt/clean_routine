@@ -1,10 +1,32 @@
-import { Button, ListItem, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, List, useDisclosure } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import { FaChevronDown } from 'react-icons/fa'
+import {
+  Button,
+  ListItem,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  List,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaChevronDown } from 'react-icons/fa';
+import { logout } from '../../endpoints/auth_api';
 
-export function NavItem({ label, url, subitems }) {
-  const {isOpen, onToggle} = useDisclosure()
+export function NavItem({ label, url, subitems, action }) {
+  const { isOpen, onToggle } = useDisclosure();
+  const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    const success = await logout();
+    if (success) {
+      navigate('/login'); // or wherever you want to redirect
+    } else {
+      console.error('Logout failed');
+    }
+  };
+
+  // If this NavItem has subitems, render a dropdown
   if (subitems) {
     return (
       <ListItem>
@@ -12,22 +34,22 @@ export function NavItem({ label, url, subitems }) {
           <PopoverTrigger>
             <Button
               rightIcon={
-                <FaChevronDown 
+                <FaChevronDown
                   style={{
                     transition: 'transform .2s ease 0s',
-                    transform: isOpen? 'rotate(-180deg)':''
+                    transform: isOpen ? 'rotate(-180deg)' : '',
                   }}
                 />
-              }  
-              colorScheme='teal'
-              variant='ghost'
+              }
+              colorScheme="teal"
+              variant="ghost"
               onClick={onToggle}
             >
               {label}
             </Button>
           </PopoverTrigger>
-          <PopoverContent width='full'>
-            <PopoverArrow/>
+          <PopoverContent width="full">
+            <PopoverArrow />
             <PopoverBody>
               <List display="flex" flexDir="column" gap={4}>
                 {subitems.map((subitem) => (
@@ -42,18 +64,36 @@ export function NavItem({ label, url, subitems }) {
           </PopoverContent>
         </Popover>
       </ListItem>
-    )
+    );
   }
-  
+
+  // Handle logout button
+  if (action) {
+    return (
+      <ListItem>
+        <Button
+          onClick={handleLogout}
+          colorScheme="teal"
+          variant="ghost"
+          _hover={{ textDecoration: 'none', bg: 'teal.50' }}
+          _active={{ bg: 'teal.100' }}
+        >
+          {label}
+        </Button>
+      </ListItem>
+    );
+  }
+
+  // Default nav link
   return (
     <ListItem>
-      <Button 
-        as={Link} 
-        to={url} 
-        colorScheme="teal" 
+      <Button
+        as={Link}
+        to={url}
+        colorScheme="teal"
         variant="ghost"
-        _hover={{ textDecoration: "none", bg: "teal.50" }}
-        _active={{ bg: "teal.100" }}
+        _hover={{ textDecoration: 'none', bg: 'teal.50' }}
+        _active={{ bg: 'teal.100' }}
       >
         {label}
       </Button>

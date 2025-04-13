@@ -43,6 +43,10 @@ const menuItems = [
     label: "Login",
     url: "/login/",
   },
+  {
+    label: "Logout",
+    action: true,
+  },
 ];
 
 export function Menu() {
