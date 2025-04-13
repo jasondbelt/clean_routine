@@ -15,9 +15,16 @@ const RegisterPage = () => {
 
   
   // handle register button click
-  const handleRegister = () => {
-    register(username, email, password)
+  const handleRegister = async () => {
+    try {
+      const result = await register(username, email, password)
+      console.log("Registration successful", result)
+    } catch (error) {
+      console.error("Registration failed", error.response?.data || error.message)
+    }
   }
+  
+  
 
 
   return (

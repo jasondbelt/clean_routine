@@ -54,7 +54,7 @@ export const logout = async () => {
 
 
 export const register = async (username, email, password) => {
-  const response = axios.post(REGISTER_URL, 
+  const response = await axios.post(REGISTER_URL, 
     {username:username, email:email, password:password},
     { withCredentials:true}
   )

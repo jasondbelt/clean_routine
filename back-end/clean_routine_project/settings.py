@@ -143,3 +143,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # tells Django Project to utilize the App_user model
 # AUTH_USER_MODEL = 'user_app.App_user'
+
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+# Optional: Allow cross-site cookies for dev
+CORS_EXPOSE_HEADERS = ['Set-Cookie']
