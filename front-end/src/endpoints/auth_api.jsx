@@ -11,19 +11,25 @@ const REGISTER_URL = `${BASE_URL}api/users/register/`
 // sends username and function to backend
 // if successul, backend sets JWT tokens in cookies
 export const login = async (username, password) => {
-  const response = await axios.post(LOGIN_URL,
-    // json object data sent in body of request (what the user typed)
-    // {
-    //   "username": "whateverTheUserTyped",
-    //   "password": "whateverTheUserTyped"
-    // }
-    {username:username, password:password},
-    // ensures cookes in request/response
-    { withCredentials:true}
-  )
-  // if it was just response.data, you'd just see success boolean
-  return response.data.success
-}
+  try {
+    const response = await axios.post(
+      LOGIN_URL,
+      { username, password },
+      { withCredentials: true }
+    );
+
+    if (response.data.success) {
+      // ✅ Store a user object or flag in localStorage
+      localStorage.setItem("user", JSON.stringify({ username }));
+    }
+
+    return response.data.success;
+  } catch (error) {
+    console.error("Login failed:", error);
+    return false;
+  }
+};
+
 
 // test function
 export const get_notes = async () => {
@@ -47,6 +53,7 @@ export const logout = async () => {
       {},
       { withCredentials: true }
     )
+    localStorage.removeItem("user")
     return true
   } catch (error) {
     console.error("Logout failed:", error);
