@@ -91,8 +91,6 @@ export function Menu() {
   );
 }
 
-
-
 export function Navbar() {
   return (
     <HStack w="full" alignItems="center" 

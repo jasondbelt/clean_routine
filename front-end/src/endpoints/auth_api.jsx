@@ -1,14 +1,15 @@
 //AUTH_API.jsx
 import axios from 'axios'
 
+// urls from backend API
 const BASE_URL = 'http://127.0.0.1:8000/'
 const LOGIN_URL = `${BASE_URL}api/users/token/`
 const NOTES_URL = `${BASE_URL}api/users/notes/`
 const LOGOUT_URL = `${BASE_URL}api/users/logout/`
 const REGISTER_URL = `${BASE_URL}api/users/register/`
-// takes in username and password, sends to backend for authentication
-// tested by going to application/cookies and seeing access and refresh token
-// in google developer tools
+
+// sends username and function to backend
+// if successul, backend sets JWT tokens in cookies
 export const login = async (username, password) => {
   const response = await axios.post(LOGIN_URL,
     // json object data sent in body of request (what the user typed)
@@ -17,14 +18,14 @@ export const login = async (username, password) => {
     //   "password": "whateverTheUserTyped"
     // }
     {username:username, password:password},
-    // includes cookes in the request
+    // ensures cookes in request/response
     { withCredentials:true}
   )
   // if it was just response.data, you'd just see success boolean
   return response.data.success
 }
 
-
+// test function
 export const get_notes = async () => {
   try {
     // Attempt to fetch notes
@@ -38,7 +39,8 @@ export const get_notes = async () => {
   }
 };
 
-
+// sends post request to clear cookies
+// backend deletes the tokens stored in cookies
 export const logout = async () => {
   try {
     await axios.post(LOGOUT_URL,
@@ -52,7 +54,7 @@ export const logout = async () => {
   }
 }
 
-
+// registers new user with username, email, and password
 export const register = async (username, email, password) => {
   const response = await axios.post(REGISTER_URL, 
     { username, email, password },
@@ -60,10 +62,3 @@ export const register = async (username, email, password) => {
   );
   return response.data;
 }
-
-
-
-
-
-
-

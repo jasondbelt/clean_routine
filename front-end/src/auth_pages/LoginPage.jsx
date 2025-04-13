@@ -1,25 +1,18 @@
-import {
-  VStack,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-  Flex,
-  Box
-} from "@chakra-ui/react";
+import {VStack, Button, FormControl, FormLabel, 
+  Input, Text, Flex, Box } from "@chakra-ui/react";
 import { useState } from 'react';
 import { login } from '../endpoints/auth_api';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  // local states and nav function
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const nav = useNavigate();
   const [err, setErr] = useState('')
   const [successMsg, setSuccessMsg] = useState('');
 
-
+  // calls cusom login function
   const handleLogin = async () => {
     try {
       const success = await login(username, password);
@@ -27,7 +20,7 @@ const LoginPage = () => {
         setSuccessMsg('Login successful! Redirecting to homepage...');
         setErr('');
   
-        // Optional: small delay before redirect
+        // delays redirecting to give user time to see message
         setTimeout(() => {
           nav('/');
         }, 1000);
@@ -42,7 +35,7 @@ const LoginPage = () => {
     }
   };
   
-  
+  // simply naviages to registration page
   const handleNav = () => {
     nav('/register');
   };
