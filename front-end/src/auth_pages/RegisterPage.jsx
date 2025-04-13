@@ -1,57 +1,48 @@
-//LOGINPAGE.JSX
-// import Chakra UI components
+//REGISTERPAGE.JSX
 import { VStack, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
-import { useState } from 'react'
-// import login function from API endpoint module
-// import { login } from '../endpoints/auth_api'
-import { register } from '../endpoints/auth_api'
+import { useState } from 'react';
+import { register } from '../endpoints/auth_api';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const nav = useNavigate();
+  const [err, setErr] = useState('')
 
-  // local state for storing user input
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  
-  // handle register button click
-  const handleRegister = async () => {
+ const handleRegister = async () => {
     try {
-      const result = await register(username, email, password)
-      console.log("Registration successful", result)
+      const success = await register(username, email, password);
+      if (success) {
+        nav('/login'); // Redirect to homepage
+      } else {
+        setErr('Invalid username or password. User is not logged in.');
+      }
     } catch (error) {
-      console.error("Registration failed", error.response?.data || error.message)
+      console.error('Registration request failed:', error);
+      setErr('Something went wrong. Please try again later.');
     }
-  }
-  
-  
-
+  };
 
   return (
-    // onChange updates state on input change
-    // value is controlled component bound to state
-    <VStack>
+    <VStack spacing={4}>
       <FormControl>
         <FormLabel>Username</FormLabel>
-        <Input onChange={(e) => setUsername(e.target.value)} 
-          value={username}
-          type='text' />
+        <Input onChange={(e) => setUsername(e.target.value)} value={username} type='text' />
       </FormControl>
       <FormControl>
         <FormLabel>Email</FormLabel>
-        <Input onChange={(e) => setEmail(e.target.value)} 
-          value={email}
-          type='text' />
+        <Input onChange={(e) => setEmail(e.target.value)} value={email} type='text' />
       </FormControl>
       <FormControl>
         <FormLabel>Password</FormLabel>
-        <Input onChange={(e) => setPassword(e.target.value)} 
-          value={password}
-          type='password' />
+        <Input onChange={(e) => setPassword(e.target.value)} value={password} type='password' />
       </FormControl>
       <Button onClick={handleRegister}>Register</Button>
+      {err && <Text color="red.500">{err}</Text>}
     </VStack>
-  )
-}
+  );
+};
 
 export default RegisterPage;
