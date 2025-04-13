@@ -17,24 +17,32 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const nav = useNavigate();
   const [err, setErr] = useState('')
+  const [successMsg, setSuccessMsg] = useState('');
 
-  
+
   const handleLogin = async () => {
     try {
       const success = await login(username, password);
       if (success) {
-        nav('/'); // Redirect to homepage
+        setSuccessMsg('Login successful! Redirecting to homepage...');
+        setErr('');
+  
+        // Optional: small delay before redirect
+        setTimeout(() => {
+          nav('/');
+        }, 1000);
       } else {
-        setErr('Invalid username or password. User is not logged in.');
+        setErr('Invalid username or password.');
+        setSuccessMsg('');
       }
     } catch (error) {
       console.error('Login request failed:', error);
       setErr('Something went wrong. Please try again later.');
+      setSuccessMsg('');
     }
   };
   
   
-
   const handleNav = () => {
     nav('/register');
   };
@@ -62,6 +70,7 @@ const LoginPage = () => {
           <Button colorScheme="teal" width="full" onClick={handleLogin}>
             Login
           </Button>
+          {successMsg && <Text color="green.500">{successMsg}</Text>}
           {err && <Text color="red.500">{err}</Text>}
 
           <Text

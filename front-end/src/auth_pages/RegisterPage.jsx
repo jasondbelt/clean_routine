@@ -10,20 +10,37 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const nav = useNavigate();
   const [err, setErr] = useState('')
+  const [successMsg, setSuccessMsg] = useState('');
 
- const handleRegister = async () => {
+
+  const handleRegister = async () => {
     try {
-      const success = await register(username, email, password);
-      if (success) {
-        nav('/login'); // Redirect to homepage
+      const result = await register(username, email, password);
+  
+      // If the backend returned valid user data, assume success
+      if (result && result.username) {
+        setSuccessMsg('Registration successful! Redirecting to login...');
+        setErr('');
+  
+        setTimeout(() => {
+          nav('/login');
+        }, 1500); // small delay so they see the message
       } else {
-        setErr('Invalid username or password. User is not logged in.');
+        setErr('Registration failed.');
+        setSuccessMsg('');
       }
     } catch (error) {
       console.error('Registration request failed:', error);
-      setErr('Something went wrong. Please try again later.');
+      const backendError = error?.response?.data;
+      const formattedError = typeof backendError === 'object'
+        ? Object.values(backendError).flat().join(' ')
+        : 'Something went wrong. Please try again later.';
+  
+      setErr(formattedError);
+      setSuccessMsg('');
     }
   };
+  
 
   return (
     <VStack spacing={4}>
@@ -40,6 +57,7 @@ const RegisterPage = () => {
         <Input onChange={(e) => setPassword(e.target.value)} value={password} type='password' />
       </FormControl>
       <Button onClick={handleRegister}>Register</Button>
+      {successMsg && <Text color="green.500">{successMsg}</Text>}
       {err && <Text color="red.500">{err}</Text>}
     </VStack>
   );
