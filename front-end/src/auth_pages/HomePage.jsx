@@ -1,14 +1,20 @@
-//HomePage.jsx
 import { useEffect, useState } from 'react';
+import { get_random_quote } from '../endpoints/other_api'; // adjust the path if needed
 
 const HomePage = () => {
   const [quote, setQuote] = useState('');
+  const [author, setAuthor] = useState('');
 
   useEffect(() => {
-    fetch('https://api.quotable.io/random')
-      .then(res => res.json())
-      .then(data => setQuote(data.content))
-      .catch(err => console.error('Failed to fetch quote:', err));
+    const fetchQuote = async () => {
+      const quoteData = await get_random_quote();
+      if (quoteData) {
+        setQuote(quoteData.quote);
+        setAuthor(quoteData.author);
+      }
+    };
+
+    fetchQuote();
   }, []);
 
   return (
@@ -21,6 +27,7 @@ const HomePage = () => {
         />
         <div className="quote-overlay top">
           <h2 className="quote-heading">" {quote} "</h2>
+          <p className="quote-author visible-author">— {author}</p>
         </div>
       </div>
     </div>
@@ -28,4 +35,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
