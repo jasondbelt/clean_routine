@@ -6,6 +6,7 @@ const BASE_URL = 'http://127.0.0.1:8000/'
 const LOGIN_URL = `${BASE_URL}api/users/token/`
 const NOTES_URL = `${BASE_URL}api/users/notes/`
 const LOGOUT_URL = `${BASE_URL}api/users/logout/`
+const AUTH_URL = `${BASE_URL}api/users/authenticated/`
 const REGISTER_URL = `${BASE_URL}api/users/register/`
 
 // sends username and function to backend
@@ -58,6 +59,17 @@ export const logout = async () => {
   } catch (error) {
     console.error("Logout failed:", error);
     return false; // Return false if refresh failed
+  }
+}
+
+export const is_authenticated = async () => {
+  try {
+    await axios.post(AUTH_URL, {}, {withCredentials: true})
+    console.log('Is authenticated')
+    return true
+  } catch (error) {
+    console.error("Is not authenticated:", error)
+    return false
   }
 }
 

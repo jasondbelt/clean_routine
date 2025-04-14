@@ -58,6 +58,12 @@ def Log_out(request):
         return res
     except:
         return Response({'success': False})
+    
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def Is_authenticated(request):
+    return Response({'authenticated': True})
 
 
 # {"username": "add username", "email": "add email": "password": "add password"}
