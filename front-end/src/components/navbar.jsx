@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  HStack,
-  List,
-  ListItem,
-  Link as ChakraLink,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, List, ListItem } from '@chakra-ui/react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { logout } from '../endpoints/auth_api';
 
@@ -21,7 +12,7 @@ const menuItems = [
   { label: "Logout", action: true },
 ];
 
-function NavItem({ label, url, action }) {
+export function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -33,54 +24,6 @@ function NavItem({ label, url, action }) {
     }
   };
 
-  if (action) {
-    return (
-      <ListItem>
-        <Button
-          onClick={handleLogout}
-          colorScheme="teal"
-          variant="ghost"
-          _hover={{ textDecoration: 'none', bg: 'teal.50' }}
-          _active={{ bg: 'teal.100' }}
-        >
-          {label}
-        </Button>
-      </ListItem>
-    );
-  }
-
-  return (
-    <ListItem>
-      <Button
-        as={RouterLink}
-        to={url}
-        colorScheme="teal"
-        variant="ghost"
-        _hover={{ textDecoration: 'none', bg: 'teal.50' }}
-        _active={{ bg: 'teal.100' }}
-      >
-        {label}
-      </Button>
-    </ListItem>
-  );
-}
-
-function LeftContent({ items }) {
-  return (
-    <Flex alignItems="center" justifyContent="space-between" gap={4}>
-      <Heading color="teal" fontWeight="black">
-        Clean Routine
-      </Heading>
-      <List gap={2} display={{ base: "none", md: "flex" }} styleType="none">
-        {items.map((item) => (
-          <NavItem key={item.label} {...item} />
-        ))}
-      </List>
-    </Flex>
-  );
-}
-
-export function Navbar() {
   return (
     <HStack
       w="full"
@@ -89,8 +32,39 @@ export function Navbar() {
       justifyContent="space-between"
       borderBottomWidth={1}
     >
-      <LeftContent items={menuItems} />
-      {/* Add RightContent or mobile menu if needed */}
+      <Flex alignItems="center" justifyContent="space-between" gap={4}>
+        <Heading color="teal" fontWeight="black">
+          Clean Routine
+        </Heading>
+        <List gap={2} display={{ base: "none", md: "flex" }} styleType="none">
+          {menuItems.map(({ label, url, action }) => (
+            <ListItem key={label}>
+              {action ? (
+                <Button
+                  onClick={handleLogout}
+                  colorScheme="teal"
+                  variant="ghost"
+                  _hover={{ textDecoration: 'none', bg: 'teal.50' }}
+                  _active={{ bg: 'teal.100' }}
+                >
+                  {label}
+                </Button>
+              ) : (
+                <Button
+                  as={RouterLink}
+                  to={url}
+                  colorScheme="teal"
+                  variant="ghost"
+                  _hover={{ textDecoration: 'none', bg: 'teal.50' }}
+                  _active={{ bg: 'teal.100' }}
+                >
+                  {label}
+                </Button>
+              )}
+            </ListItem>
+          ))}
+        </List>
+      </Flex>
     </HStack>
   );
 }
