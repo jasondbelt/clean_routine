@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, Flex, Heading, HStack, List, ListItem } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  List,
+  ListItem,
+} from '@chakra-ui/react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { logout } from '../endpoints/auth_api';
 
@@ -25,18 +32,21 @@ export function Navbar() {
   };
 
   return (
-    <HStack
-      w="full"
-      alignItems="center"
-      p={2}
-      justifyContent="space-between"
+    <Flex
+      as="nav"
+      w="100%"
+      p={4}
+      align="center"
       borderBottomWidth={1}
     >
-      <Flex alignItems="center" justifyContent="space-between" gap={4}>
-        <Heading color="teal" fontWeight="black">
-          Clean Routine
-        </Heading>
-        <List gap={2} display={{ base: "none", md: "flex" }} styleType="none">
+      {/* Left: Logo */}
+      <Heading color="teal" fontWeight="black" fontSize="4xl" whiteSpace="nowrap">
+        Clean Routine
+      </Heading>
+
+      {/* Center: Menu items */}
+      <Flex flex={1} justify="center">
+        <List display="flex" gap={2} styleType="none" alignItems="center">
           {menuItems.map(({ label, url, action }) => (
             <ListItem key={label}>
               {action ? (
@@ -44,7 +54,7 @@ export function Navbar() {
                   onClick={handleLogout}
                   colorScheme="teal"
                   variant="ghost"
-                  _hover={{ textDecoration: 'none', bg: 'teal.50' }}
+                  _hover={{ bg: 'teal.50' }}
                   _active={{ bg: 'teal.100' }}
                 >
                   {label}
@@ -55,7 +65,7 @@ export function Navbar() {
                   to={url}
                   colorScheme="teal"
                   variant="ghost"
-                  _hover={{ textDecoration: 'none', bg: 'teal.50' }}
+                  _hover={{ bg: 'teal.50' }}
                   _active={{ bg: 'teal.100' }}
                 >
                   {label}
@@ -65,6 +75,9 @@ export function Navbar() {
           ))}
         </List>
       </Flex>
-    </HStack>
+
+      {/* Right: empty for now, helps with centering */}
+      <Box w="120px" /> {/* Optional: Reserve space for future right content */}
+    </Flex>
   );
 }
