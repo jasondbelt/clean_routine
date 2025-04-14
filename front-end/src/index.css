@@ -129,3 +129,14 @@
   font-style: italic;
   margin: 0;
 }
+
+.visible-author {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.4); /* Optional for better contrast */
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 10px;
+}
