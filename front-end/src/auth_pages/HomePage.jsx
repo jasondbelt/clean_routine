@@ -1,5 +1,4 @@
 //HomePage.jsx
-// HomePage.jsx
 import { useEffect, useState } from 'react';
 
 const HomePage = () => {
