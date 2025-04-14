@@ -6,14 +6,14 @@ from .serializers import Note, NoteSerializer, UserRegistrationSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from rest_framework import status
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
-# custom class overrides default class to set tokens in cookies
+
+# custom view overrides default TokenObtainPairView
+# sets generated tokens in cookies for client-side storage
 # {"username": "add username", "password": "add password"}
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -47,35 +47,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             return Response({'success': False})
 
 
-# custom class to retreive refresh token and set as new access token
-class CustomRefreshTokenView(TokenRefreshView):
-    def post(self, request, *args, **kwargs):
-        try:
-            # retreive refresh token from cookies
-            refresh_token = request.COOKIES.get('refresh_token')
-            # add refresh token to request data
-            request.data['refresh'] = refresh_token
-            # call parent class 'post' method to get new access token
-            # based on refresh token
-            response = super().post(request, *args, **kwargs)
-            
-            # create response with success data
-            res = Response({'refreshed': True})
-            # et new access token in cookes for subsequent requests
-            res.set_cookie(
-                key='access_token',
-                value=response.data['access'],
-                httponly=True,
-                secure=True,
-                samesite='None',
-                path='/',
-            )
-            # return the success response with cookies set
-            return res
-        except:
-            return Response({'refreshed': False})
-
-
+# deletes the access and refresh tokens cookies to log the user out
 @api_view(['POST'])
 def Log_out(request):
     try:
@@ -86,7 +58,7 @@ def Log_out(request):
         return res
     except:
         return Response({'success': False})
-
+    
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -96,15 +68,20 @@ def Is_authenticated(request):
 
 # {"username": "add username", "email": "add email": "password": "add password"}
 @api_view(['POST'])
+# no authentication required for registration
 @permission_classes([AllowAny])
 def register(request):
     serializer = UserRegistrationSerializer(data=request.data)
+
     if serializer.is_valid():
+        # calls create method in serializer to save new user
         serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors)
+        # return serialized user data with successful response
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# just used as test function while working through views
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def Get_notes(request):
