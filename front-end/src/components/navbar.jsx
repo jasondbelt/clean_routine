@@ -9,18 +9,25 @@ import {
 } from '@chakra-ui/react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { logout } from '../endpoints/auth_api';
+import { isAuthenticated } from './utilities/isAuthenticated' // Import isAuthenticated
 
-const menuItems = [
+const menuItemsLoggedIn = [
   { label: "Home", url: "/" },
   { label: "About", url: "/about/" },
   { label: "Rooms", url: "/rooms/" },
   { label: "Shopping", url: "/shopping/" },
-  { label: "Login", url: "/login/" },
   { label: "Logout", action: true },
+];
+
+const menuItemsLoggedOut = [
+  { label: "Home", url: "/" },
+  { label: "About", url: "/about/" },
+  { label: "Login", url: "/login/" },
 ];
 
 export function Navbar() {
   const navigate = useNavigate();
+  const isUserAuthenticated = isAuthenticated(); // Check if the user is logged in
 
   const handleLogout = async () => {
     const success = await logout();
@@ -30,6 +37,9 @@ export function Navbar() {
       console.error('Logout failed');
     }
   };
+
+  // Choose the appropriate menu items based on the authentication status
+  const menuItems = isUserAuthenticated ? menuItemsLoggedIn : menuItemsLoggedOut;
 
   return (
     <Flex
