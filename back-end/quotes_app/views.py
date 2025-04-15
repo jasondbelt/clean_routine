@@ -19,7 +19,7 @@ def Get_random_quote(request):
                 'author': data.get('author'),
             })
         else:
-            return Response({'error': 'Failed to fetch quote'}, status=status.HTTP_502_BAD_GATEWAY)
+            return Response({'error': 'Failed to fetch quote'}, status=status.HTTP_400_BAD_REQUEST)
 
     except requests.exceptions.RequestException as e:
-        return Response({'error': str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
