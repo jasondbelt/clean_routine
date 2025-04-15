@@ -17,6 +17,7 @@ const AboutPage = () => {
         <li>✔ Routines that match your lifestyle</li>
         <li>✔ Less stress, more control at home</li>
         <li>✔ A cozy, clean space you enjoy coming back to</li>
+        <li>✔ Optimize schedule based on weather conditions</li>
       </ul>
     </div>
   );
