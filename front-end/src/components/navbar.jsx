@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -7,9 +7,9 @@ import {
   List,
   ListItem,
 } from '@chakra-ui/react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { logout } from '../endpoints/auth_api';
-import { isAuthenticated } from './utilities/isAuthenticated' // Import isAuthenticated
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
+import { logout, is_authenticated } from '../endpoints/auth_api';
+import { isAuthenticated } from './utilities/isAuthenticated';
 
 const menuItemsLoggedIn = [
   { label: "Home", url: "/" },
@@ -27,34 +27,46 @@ const menuItemsLoggedOut = [
 
 export function Navbar() {
   const navigate = useNavigate();
-  const isUserAuthenticated = isAuthenticated(); // Check if the user is logged in
+  const location = useLocation();
+  const [authenticated, setAuthenticated] = useState(isAuthenticated());
+
+  // 🔁 Update auth state when route changes or when localStorage is updated
+  // import { is_authenticated } from '../endpoints/auth_api'; // use backend auth check
+
+useEffect(() => {
+  const updateAuthStatus = async () => {
+    const auth = await is_authenticated();
+    setAuthenticated(auth);
+  };
+
+  updateAuthStatus(); // on mount and route change
+  window.addEventListener('storage', updateAuthStatus); // for cross-tab sync
+
+  return () => {
+    window.removeEventListener('storage', updateAuthStatus);
+  };
+}, [location]);
+
 
   const handleLogout = async () => {
     const success = await logout();
     if (success) {
+      localStorage.removeItem('user');
+      setAuthenticated(false);
       navigate('/login');
     } else {
       console.error('Logout failed');
     }
   };
 
-  // Choose the appropriate menu items based on the authentication status
-  const menuItems = isUserAuthenticated ? menuItemsLoggedIn : menuItemsLoggedOut;
+  const menuItems = authenticated ? menuItemsLoggedIn : menuItemsLoggedOut;
 
   return (
-    <Flex
-      as="nav"
-      w="100%"
-      p={4}
-      align="center"
-      borderBottomWidth={1}
-    >
-      {/* Left: Logo */}
+    <Flex as="nav" w="100%" p={4} align="center" borderBottomWidth={1}>
       <Heading color="teal" fontWeight="black" fontSize="4xl" whiteSpace="nowrap">
         Clean Routine
       </Heading>
 
-      {/* Center: Menu items */}
       <Flex flex={1} justify="center">
         <List display="flex" gap={2} styleType="none" alignItems="center">
           {menuItems.map(({ label, url, action }) => (
@@ -86,8 +98,7 @@ export function Navbar() {
         </List>
       </Flex>
 
-      {/* Right: empty for now, helps with centering */}
-      <Box w="120px" /> {/* Optional: Reserve space for future right content */}
+      <Box w="120px" />
     </Flex>
   );
 }

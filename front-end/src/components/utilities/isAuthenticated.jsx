@@ -1,5 +1,11 @@
-// isAuthenticated.jsx
+// // isAuthenticated.jsx
 export const isAuthenticated = () => {
-  const user = localStorage.getItem('user');
-  return !!user; // or add additional validation if needed
+  try {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user && typeof user === 'object' && user.token; // or user.id, user.username, etc.
+  } catch (err) {
+    console.error(err)
+    return false;
+  }
 };
+
