@@ -1,42 +1,52 @@
-//WeatherPage.jsx
-import search_icon from '../assets/weather/search.png'
-import clear_icon from '../assets/weather/clear.png'
-// import cloud_icon from '../assets/weather/cloud.png'
-// import drizzle_icon from '../assets/weather/drizzle.png'
-// import rain_icon from '../assets/weather/rain.png'
-// import snow_icon from '../assets/weather/snow.png'
-import wind_icon from '../assets/weather/wind.png'
-import humidity_icon from '../assets/weather/humidity.png'
+// WEATHERPAGE.JSX
+import React, { useState } from 'react';
+import { get_forecast } from '../endpoints/other_api';
 
-const WeatherPage = () => {
+function WeatherPage() {
+  const [city, setCity] = useState('');
+  const [forecast, setForecast] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleFetch = async () => {
+    const data = await get_forecast(city);
+    if (data) {
+      setForecast(data);
+      setError('');
+    } else {
+      setForecast(null);
+      setError('Could not fetch weather data. Try a different city.');
+    }
+  };
+
   return (
-    <div className="weather-app">
-      <div className="search-bar">
-        <input type="text" placeholder="Search"/>
-        <img src={search_icon} alt=""/>
-      {/* <h2>WeatherPage</h2> */}
-      </div>
-      <img src={clear_icon} alt="" className="weather-icon"/>
-      <p className='temperature'>16°C</p>
-      <p className='location'>London</p>
-      <div className='weather-data'>
-        <div className="col">
-          <img src={humidity_icon} alt=""/>
-          <div>
-            <p>91 %</p>
-            <span>Humidity</span>
+    <div className="weather-wrapper">
+      <div className="weather-container">
+        <h1 className="weather-title">Weather Forecast</h1>
+        <input
+          type="text"
+          placeholder="Enter city"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="weather-input"
+        />
+        <button onClick={handleFetch} className="weather-button">
+          Get Forecast
+        </button>
+
+        {error && <p className="weather-error">{error}</p>}
+
+        {forecast && (
+          <div className="weather-forecast">
+            <h2 className="weather-location">{forecast.location}</h2>
+            <p><strong>Sky Condition:</strong> {forecast.weather} ({forecast.description})</p>
+            <p><strong>Temperature:</strong> {forecast.temperature} °C</p>
+            <p><strong>Humidity:</strong> {forecast.humidity}%</p>
+            <p><strong>Wind Speed:</strong> {forecast['wind speed']} m/s</p>
           </div>
-        </div>
-        <div className="col">
-          <img src={wind_icon} alt=""/>
-          <div>
-            <p>3.6 Km/h</p>
-            <span>Wind Speed</span>
-          </div>
-        </div>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default WeatherPage
+export default WeatherPage;
