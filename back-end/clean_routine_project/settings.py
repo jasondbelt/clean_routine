@@ -159,3 +159,11 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Optional: Allow cross-site cookies for dev
 CORS_EXPOSE_HEADERS = ['Set-Cookie']
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365 * 10),  # Valid for 10 years
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=365 * 10), # Also valid for 10 years (or longer if desired)
+}
+
