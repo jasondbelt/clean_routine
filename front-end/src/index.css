@@ -1,32 +1,17 @@
-.about-container {
+/* === About Page Styles === */
+.about-section {
   position: relative;
   max-width: 800px;
   margin: 60px auto;
   padding: 40px;
   border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  z-index: 1;
+  font-family: 'Segoe UI', sans-serif;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.85); /* white background with some transparency */
 }
 
-/* Background Image or Gradient */
-.about-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('/path/to/your/peaceful-image.jpg') no-repeat center center;
-  background-size: cover;
-  opacity: 0.3; /* adjust for how visible you want the background to be */
-  z-index: -1;
-}
-
-/* Alternatively, use a soft gradient instead of an image */
-.about-container::before {
+.about-section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -34,17 +19,11 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, #d7eafc, #f0f7f4);
-  opacity: 0.4;
+  opacity: 0.35;
   z-index: -1;
 }
 
-/* Content Styling */
-.about-title, .about-subtitle, .about-paragraph, .about-list li {
-  color: #333;
-  text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.7); /* subtle text shadow for better readability */
-}
-
-.about-title {
+.section-title {
   font-size: 32px;
   margin-bottom: 20px;
   color: #2c3e50;
@@ -52,26 +31,26 @@
   padding-bottom: 10px;
 }
 
-.about-subtitle {
+.subheading {
   font-size: 24px;
   color: #2c3e50;
   margin-top: 30px;
   margin-bottom: 15px;
 }
 
-.about-paragraph {
+.section-text {
   font-size: 18px;
   line-height: 1.6;
   color: #444;
   margin-bottom: 20px;
 }
 
-.about-list {
+.feature-list {
   list-style: none;
   padding-left: 0;
 }
 
-.about-list li {
+.feature-list li {
   font-size: 18px;
   line-height: 1.6;
   color: #333;
@@ -80,7 +59,7 @@
   position: relative;
 }
 
-.about-list li::before {
+.feature-list li::before {
   content: '✔';
   position: absolute;
   left: 0;
@@ -89,54 +68,137 @@
 }
 
 
-.homepage-container {
+/* === Home Page Styles === */
+.home-wrapper {
   position: relative;
   width: 100%;
 }
 
-.image-wrapper {
+.image-banner {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
 }
 
-.clean-house-image {
+.hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.quote-overlay {
+.quote-box {
   position: absolute;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent dark background */
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 20px 30px;
   border-radius: 12px;
   max-width: 90%;
   text-align: center;
 }
 
-.quote-overlay.top {
-  top: 30px; /* now it's at the top of the image */
-}
-
-.quote-heading {
+.quote-text {
   font-size: 24px;
   color: #fff;
   font-style: italic;
   margin: 0;
 }
 
-.visible-author {
+.quote-author {
   color: #fff;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-  background-color: rgba(0, 0, 0, 0.4); /* Optional for better contrast */
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 4px 8px;
   border-radius: 5px;
   display: inline-block;
   margin-top: 10px;
+}
+
+
+/* === Weather Page Styles === */
+.weather-wrapper {
+  min-height: 100vh;
+  background-image: url('./assets/sunny.jpg'); /* Weather-style image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 3rem;
+}
+
+/* Optional: semi-transparent overlay */
+.weather-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+}
+
+.weather-container {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+.weather-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.weather-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.weather-button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.weather-button:hover {
+  background-color: #2563eb;
+}
+
+.weather-error {
+  margin-top: 1rem;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.weather-forecast {
+  margin-top: 1.5rem;
+  line-height: 1.6;
+}
+
+.weather-location {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
 }

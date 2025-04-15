@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import dotenv_values
+
+env = dotenv_values(".env")
+# print(f"settings.py env.WEATHER_API_KEY {env.get('WEATHER_API_KEY')}")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zb*pas@*=npzkh5_a&0tf64r1by*qvyp*b(8m-hzsi9dac@%xq'
+# SECRET_KEY = 'django-insecure-zb*pas@*=npzkh5_a&0tf64r1by*qvyp*b(8m-hzsi9dac@%xq'
+SECRET_KEY = env.get("DJANGO_SECRET_KEY")
+# print(f"settings.py env.DJANGO_SECRET_KEY {env.get('DJANGO_SECRET_KEY')}")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -3,7 +3,7 @@ import App from "./App"
 import HomePage from './auth_pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import RoomsPage from './pages/RoomsPage'
-import ShoppingPage from './pages/ShoppingPage'
+import WeatherPage from './pages/WeatherPage'
 import MenuPage from './auth_pages/MenuPage'
 import LoginPage from "./auth_pages/LoginPage"
 import RegisterPage from './auth_pages/RegisterPage'
@@ -39,8 +39,8 @@ const router = createBrowserRouter([
             element: <RoomsPage/>
           },
           {
-            path: "shopping/",
-            element: <ShoppingPage/>
+            path: "weather/",
+            element: <WeatherPage/>
           },
           {
             path: "menu/",
