@@ -21,7 +21,7 @@ function WeatherPage() {
   return (
     <div className="weather-wrapper">
       <div className="weather-container">
-        <h1 className="weather-title">Weather Forecast</h1>
+        <h1 className="weather-title">Current Weather</h1>
         <input
           type="text"
           placeholder="Enter city"
@@ -30,7 +30,7 @@ function WeatherPage() {
           className="weather-input"
         />
         <button onClick={handleFetch} className="weather-button">
-          Get Forecast
+          Get Weather
         </button>
 
         {error && <p className="weather-error">{error}</p>}
