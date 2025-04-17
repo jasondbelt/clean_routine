@@ -34,3 +34,6 @@ class Task(models.Model):
     # Ensure no task is scheduled at the same day and time for the same user
     class Meta:
         unique_together = ('user', 'day_of_week', 'time_of_day')
+
+    def __str__(self):
+        return f"{self.id} | {self.user} | {self.room.room_name} | {self.description} | {self.day_of_week} at {self.time_of_day}"

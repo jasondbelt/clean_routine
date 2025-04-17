@@ -1,4 +1,4 @@
-#USER_APP.ADMIN
+#ROOM_APP.ADMIN
 from django.contrib import admin
 from .models import Room
 

@@ -20,4 +20,4 @@ class Room(models.Model):
         unique_together = ('user', 'room_name')
 
     def __str__(self):
-        return f"{self.room_name} ({self.user.username})"
+        return f"{self.id} {self.room_name} ({self.user.username})"
