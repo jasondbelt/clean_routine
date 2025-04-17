@@ -18,3 +18,6 @@ class Room(models.Model):
 
     class Meta:
         unique_together = ('user', 'room_name')
+
+    def __str__(self):
+        return f"{self.room_name} ({self.user.username})"
