@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Task
-from .serializers import AllTasksSerializer, TaskSerializer
+from .serializers import AllTasksSerializer, DayTasksSerializer, TaskSerializer
 from django.db.models import Case, When, IntegerField
 from rest_framework.status import (
     HTTP_200_OK,
@@ -30,6 +30,18 @@ class All_tasks(APIView):
         tasks = Task.objects.filter(user=request.user).order_by(self.day_order(), 'time_of_day')
         # serialize and return as a response
         tasks_ser = AllTasksSerializer(tasks, many=True)
+        return Response(tasks_ser.data)
+    
+
+# view all tasks by day
+class Tasks_by_day(APIView):
+    
+    # retrieve all tasks by day
+    def get(self, request, day):
+        # filter by user and day of week, sort by time of day
+        tasks = Task.objects.filter(user=request.user, day_of_week=day).order_by('time_of_day')
+        # serialize and return as a response
+        tasks_ser = DayTasksSerializer(tasks, many=True)
         return Response(tasks_ser.data)
 
     
