@@ -51,7 +51,7 @@ class A_room(APIView):
         ser_room = RoomSerializer(room, data=data, partial=True)
         if ser_room.is_valid():
             ser_room.save()
-            return Response(ser_room.data, status=HTTP_200_OK)
+            return Response(ser_room.data, status=HTTP_201_CREATED)
         return Response(ser_room.errors, status=HTTP_400_BAD_REQUEST)
 
     # delete existing room by roomname
