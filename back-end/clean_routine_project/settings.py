@@ -168,4 +168,3 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=365 * 10),  # Valid for 10 years
     'REFRESH_TOKEN_LIFETIME': timedelta(days=365 * 10), # Also valid for 10 years (or longer if desired)
 }
-
