@@ -60,6 +60,7 @@ def Log_out(request):
         return Response({'success': False})
     
 
+# tests whether user is authenticated, utilized in frontend
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def Is_authenticated(request):
