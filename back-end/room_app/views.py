@@ -37,7 +37,8 @@ class A_room(APIView):
 
     # create new room, save/attach it to user if valid
     def post(self, request, room_name):
-        ser_room = RoomSerializer(data=request.data)
+        data = request.data.copy()
+        ser_room = RoomSerializer(data=data)
         if ser_room.is_valid():
             ser_room.save(user=request.user)
             return Response(ser_room.data, status=HTTP_201_CREATED)
@@ -46,7 +47,8 @@ class A_room(APIView):
     # update an existing room by roomname (partial update allowed)
     def put(self, request, room_name):
         room = self.get_room(request, room_name)
-        ser_room = RoomSerializer(room, data=request.data, partial=True)
+        data = request.data.copy()
+        ser_room = RoomSerializer(room, data=data, partial=True)
         if ser_room.is_valid():
             ser_room.save()
             return Response(ser_room.data, status=HTTP_200_OK)
