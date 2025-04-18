@@ -16,7 +16,7 @@ const menuItemsLoggedIn = [
   { label: "Home", url: "/" },
   { label: "About", url: "/about/" },
   { label: "Rooms", url: "/rooms/" },
-  { label: "Schedule", url: "/calendar/" },
+  { label: "Schedule", url: "/schedule/" },
   { label: "Weather", url: "/weather/" },
   { label: "Logout", action: true },
 ];
