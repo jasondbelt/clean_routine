@@ -3,6 +3,7 @@ import App from "./App"
 import HomePage from './auth_pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import RoomsPage from './pages/RoomsPage'
+import CalendarPage from './pages/CalendarPage'
 import WeatherPage from './pages/WeatherPage'
 import MenuPage from './auth_pages/MenuPage'
 import LoginPage from "./auth_pages/LoginPage"
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
           {
             path: "rooms/",
             element: <RoomsPage/>
+          },
+          {
+            path: "calendar/",
+            element: <CalendarPage/>
           },
           {
             path: "weather/",
