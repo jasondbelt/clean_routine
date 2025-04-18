@@ -1,20 +1,68 @@
 //RoomsPage.jsx
+import React, { useState } from 'react';
+import Default_room from '../assets/room_images/Default_room.jpg';
+
 // import axios from 'axios'
 
 // define base urls for rooms and tasks from backend API
 const BASE_URL = 'http://127.0.0.1:8000/'
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`
 // path('roomname/<str:room_name>/', A_room.as_view(), name='room'),
-const BASE_TASKS_URL = `${BASE_URL}/api/tasks/`
-// path('day/<str:day>/', Tasks_by_day.as_view(), name='tasks_by_day'),
-// path('room_id/<int:room_id>/', CR_all_room_tasks.as_view(), name='cr_all_room_tasks'),
-// path('room_id/<int:room_id>/task_id/<int:task_id>/', RUD_room_tasks.as_view(), name='ud_room_tasks')
+
+
 const RoomsPage = () => {
+  const [roomName, setRoomName] = useState('');
+  const [image, setImage] = useState(null);
+
+  const handleRoomNameChange = (e) => {
+    setRoomName(e.target.value);
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('room_name', roomName);
+    if (image) {
+      formData.append('image', image);
+    }
+
+    // Submit form data to your API or backend
+    // Example: axios.post('/api/rooms', formData);
+
+    console.log('Form submitted with:', { roomName, image });
+  };
+
   return (
     <div>
-      <h2>RoomsPage</h2>
+      <h2>Create New Room</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="room_name">Room Name:</label>
+          <input
+            type="text"
+            id="room_name"
+            value={roomName}
+            onChange={handleRoomNameChange}
+            maxLength={20}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="image">Room Image (Optional):</label>
+          <input
+            type="file"
+            id="image"
+            onChange={handleImageChange}
+          />
+        </div>
+        <button type="submit">Create Room</button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default RoomsPage
+export default RoomsPage;
