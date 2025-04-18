@@ -22,19 +22,25 @@ const RoomsPage = () => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('room_name', roomName);
+  
     if (image) {
       formData.append('image', image);
+    } else {
+      // fetch the default image and convert to Blob
+      const response = await fetch(Default_room);
+      const blob = await response.blob();
+      const file = new File([blob], 'Default_room.jpg', { type: blob.type });
+      formData.append('image', file);
     }
-
+  
     // Submit form data to your API or backend
-    // Example: axios.post('/api/rooms', formData);
-
     console.log('Form submitted with:', { roomName, image });
   };
+  
 
   return (
     <div>
