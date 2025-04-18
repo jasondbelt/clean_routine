@@ -1,44 +1,45 @@
 //RoomsPage.jsx
 import React, { useState } from 'react';
-import Default_room from '../assets/room_images/Default_room.jpg';
+import axios from 'axios';
 
-// import axios from 'axios'
-
-// define base urls for rooms and tasks from backend API
-const BASE_URL = 'http://127.0.0.1:8000/'
-const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`
-// path('roomname/<str:room_name>/', A_room.as_view(), name='room'),
-
+// Define base URLs for rooms and tasks from backend API
+const BASE_URL = 'http://127.0.0.1:8000/';
+const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;  // Adjusted for roomname/<room_name>/
 
 const RoomsPage = () => {
   const [roomName, setRoomName] = useState('');
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');  // For storing image URL
 
   const handleRoomNameChange = (e) => {
     setRoomName(e.target.value);
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+  const handleImageUrlChange = (e) => {
+    setImageUrl(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('room_name', roomName);
   
-    if (image) {
-      formData.append('image', image);
-    } else {
-      // fetch the default image and convert to Blob
-      const response = await fetch(Default_room);
-      const blob = await response.blob();
-      const file = new File([blob], 'Default_room.jpg', { type: blob.type });
-      formData.append('image', file);
+    // Build room data with only the fields we want to send
+    const roomData = {
+      room_name: roomName,
+    };
+  
+    // Only include image_url if it's provided
+    if (imageUrl.trim()) {
+      roomData.image_url = imageUrl;
     }
   
-    // Submit form data to your API or backend
-    console.log('Form submitted with:', { roomName, image });
+    try {
+      const response = await axios.post(`${BASE_ROOMS_URL}${roomName}/`, roomData, {
+        withCredentials: true,
+      });
+  
+      console.log('Room created successfully:', response.data);
+    } catch (error) {
+      console.error('Error creating room:', error.response ? error.response.data : error.message);
+    }
   };
   
 
@@ -58,11 +59,12 @@ const RoomsPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="image">Room Image (Optional):</label>
+          <label htmlFor="image_url">Room Image URL (Optional):</label>
           <input
-            type="file"
-            id="image"
-            onChange={handleImageChange}
+            type="url"
+            id="image_url"
+            value={imageUrl}
+            onChange={handleImageUrlChange}
           />
         </div>
         <button type="submit">Create Room</button>

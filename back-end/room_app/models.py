@@ -27,8 +27,7 @@ class Room(models.Model):
     )
     # optional image field
     image_url = models.URLField(
-        blank=True, 
-        null=True, 
+        blank=True,
         validators=[validate_image_url],
         default='https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png'
     )
