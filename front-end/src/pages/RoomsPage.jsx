@@ -1,17 +1,26 @@
-//RoomsPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
 // Define base URLs for rooms and tasks from backend API
 const BASE_URL = 'http://127.0.0.1:8000/';
-const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;  // Adjusted for roomname/<room_name>/
+const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;
+
+// Predefined room names for the dropdown
+const predefinedRoomNames = ['Bathroom', 'Bedroom', 'Garage', 'Kitchen', 'Laundry Room', 'Office'];
 
 const RoomsPage = () => {
   const [roomName, setRoomName] = useState('');
-  const [imageUrl, setImageUrl] = useState('');  // For storing image URL
+  const [selectedDropdown, setSelectedDropdown] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   const handleRoomNameChange = (e) => {
     setRoomName(e.target.value);
+  };
+
+  const handleDropdownChange = (e) => {
+    const value = e.target.value;
+    setSelectedDropdown(value);
+    setRoomName(value); // Sync input with dropdown
   };
 
   const handleImageUrlChange = (e) => {
@@ -20,33 +29,51 @@ const RoomsPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Build room data with only the fields we want to send
+
     const roomData = {
       room_name: roomName,
     };
-  
-    // Only include image_url if it's provided
+
     if (imageUrl.trim()) {
       roomData.image_url = imageUrl;
     }
-  
+
     try {
       const response = await axios.post(`${BASE_ROOMS_URL}${roomName}/`, roomData, {
         withCredentials: true,
       });
-  
+
       console.log('Room created successfully:', response.data);
+
+      // Optionally reset form
+      setRoomName('');
+      setSelectedDropdown('');
+      setImageUrl('');
     } catch (error) {
       console.error('Error creating room:', error.response ? error.response.data : error.message);
     }
   };
-  
 
   return (
     <div>
       <h2>Create New Room</h2>
       <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="room_select">Choose a Room Name:</label>
+          <select
+            id="room_select"
+            value={selectedDropdown}
+            onChange={handleDropdownChange}
+          >
+            <option value="">Custom</option>
+            {predefinedRoomNames.map((name, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div>
           <label htmlFor="room_name">Room Name:</label>
           <input
@@ -56,8 +83,10 @@ const RoomsPage = () => {
             onChange={handleRoomNameChange}
             maxLength={20}
             required
+            disabled={selectedDropdown !== ''}
           />
         </div>
+
         <div>
           <label htmlFor="image_url">Room Image URL (Optional):</label>
           <input
@@ -67,6 +96,7 @@ const RoomsPage = () => {
             onChange={handleImageUrlChange}
           />
         </div>
+
         <button type="submit">Create Room</button>
       </form>
     </div>
