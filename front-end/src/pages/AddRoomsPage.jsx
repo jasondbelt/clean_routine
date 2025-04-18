@@ -7,7 +7,7 @@ const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;
 
 const predefinedRoomNames = ['Bathroom', 'Bedroom', 'Garage', 'Kitchen', 'Laundry Room', 'Office'];
 
-const RoomsPage = () => {
+const AddRoomsPage = () => {
   const [roomName, setRoomName] = useState('');
   const [selectedDropdown, setSelectedDropdown] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -61,58 +61,60 @@ const RoomsPage = () => {
   };
 
   return (
-    <div className="rooms-container">
-      <h2>Create New Room</h2>
-      <form onSubmit={handleSubmit} className="rooms-form">
-        <div>
-          <label htmlFor="room_select">Choose a Room Name:</label>
-          <select
-            id="room_select"
-            value={selectedDropdown}
-            onChange={handleDropdownChange}
-          >
-            <option value="">Custom</option>
-            {predefinedRoomNames.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="rooms-wrapper">
+      <div className="rooms-container">
+        <h2 className="rooms-title">Add New Room</h2>
+        <form onSubmit={handleSubmit} className="rooms-form">
+          <div>
+            <label htmlFor="room_select">Choose a Room Name:</label>
+            <select
+              id="room_select"
+              value={selectedDropdown}
+              onChange={handleDropdownChange}
+            >
+              <option value="">Custom</option>
+              {predefinedRoomNames.map((name, index) => (
+                <option key={index} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label htmlFor="room_name">Room Name (Capitalized Format Required):</label>
-          <input
-            type="text"
-            id="room_name"
-            value={roomName}
-            onChange={handleRoomNameChange}
-            maxLength={20}
-            required
-            disabled={selectedDropdown !== ''}
-          />
-        </div>
+          <div>
+            <label htmlFor="room_name">Room Name (Capitalized Format Required):</label>
+            <input
+              type="text"
+              id="room_name"
+              value={roomName}
+              onChange={handleRoomNameChange}
+              maxLength={20}
+              required
+              disabled={selectedDropdown !== ''}
+            />
+          </div>
 
-        <div>
-          <label htmlFor="image_url">Room Image URL (Optional):</label>
-          <input
-            type="url"
-            id="image_url"
-            value={imageUrl}
-            onChange={handleImageUrlChange}
-          />
-        </div>
+          <div>
+            <label htmlFor="image_url">Room Image URL (Optional):</label>
+            <input
+              type="url"
+              id="image_url"
+              value={imageUrl}
+              onChange={handleImageUrlChange}
+            />
+          </div>
 
-        <button type="submit">Create Room</button>
+          <button type="submit" className="rooms-button">Create Room</button>
 
-        {message && (
-          <p className={isError ? 'form-message error' : 'form-message success'}>
-            {message}
-          </p>
-        )}
-      </form>
+          {message && (
+            <p className={isError ? 'rooms-message error' : 'rooms-message success'}>
+              {message}
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
 
-export default RoomsPage;
+export default AddRoomsPage;

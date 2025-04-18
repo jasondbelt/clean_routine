@@ -12,12 +12,12 @@ const BASE_TASKS_URL = `${BASE_URL}/api/tasks/`
 // path('day/<str:day>/', Tasks_by_day.as_view(), name='tasks_by_day'),
 // path('room_id/<int:room_id>/', CR_all_room_tasks.as_view(), name='cr_all_room_tasks'),
 // path('room_id/<int:room_id>/task_id/<int:task_id>/', RUD_room_tasks.as_view(), name='ud_room_tasks')
-const TasksPage = () => {
+const ViewRoomsPage = () => {
   return (
     <div>
-      <h2>TasksPage</h2>
+      <h2>ViewRoomsPage</h2>
     </div>
   )
 }
 
-export default TasksPage
+export default ViewRoomsPage

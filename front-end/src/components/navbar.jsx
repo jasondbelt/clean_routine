@@ -15,7 +15,8 @@ import { logout, is_authenticated } from '../endpoints/auth_api';
 const menuItemsLoggedIn = [
   { label: "Home", url: "/" },
   { label: "About", url: "/about/" },
-  { label: "Rooms", url: "/rooms/" },
+  { label: "Add Rooms", url: "/addrooms/" },
+  { label: "View Rooms", url: "/viewrooms/" },
   { label: "Schedule", url: "/schedule/" },
   { label: "Weather", url: "/weather/" },
   { label: "Logout", action: true },

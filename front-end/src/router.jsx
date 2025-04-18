@@ -2,7 +2,8 @@ import { createBrowserRouter } from 'react-router-dom'
 import App from "./App"
 import HomePage from './auth_pages/HomePage'
 import AboutPage from './pages/AboutPage'
-import RoomsPage from './pages/RoomsPage'
+import AddRoomsPage from './pages/AddRoomsPage'
+import ViewRoomsPage from './pages/ViewRoomsPage'
 import SchedulePage from './pages/SchedulePage'
 import WeatherPage from './pages/WeatherPage'
 import MenuPage from './auth_pages/MenuPage'
@@ -38,8 +39,12 @@ const router = createBrowserRouter([
         element: <ProtectedRoutes />, // Wraps protected routes
         children: [
           {
-            path: "rooms/",
-            element: <RoomsPage/>
+            path: "addrooms/",
+            element: <AddRoomsPage/>
+          },
+          {
+            path: "viewrooms/",
+            element: <ViewRoomsPage/>
           },
           {
             path: "schedule/",

@@ -203,72 +203,60 @@
   color: #111827;
 }
 
-/* === RoomPage Styles === */
+/* === AddRoomsPage Styles === */
 
-/* index.css */
-
-.rooms-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  font-family: 'Arial', sans-serif;
+.rooms-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures the content is vertically centered */
+  background-image: url('./assets/room.jpg'); /* Replace with your actual image URL */
+  background-size: cover; /* Ensures the image covers the entire screen */
+  background-position: center center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents repeating the image */
 }
 
-.rooms-container h2 {
+.rooms-container {
+  background: rgba(255, 255, 255, 0.8); /* Optional: adds a slight background for contrast */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rooms-title {
   text-align: center;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
 }
 
-.rooms-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+.rooms-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.rooms-form input,
-.rooms-form select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.rooms-form button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
+.rooms-button {
+  background-color: #4CAF50;
   color: white;
-  font-weight: bold;
   border: none;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.rooms-form button:hover {
-  background-color: #0056b3;
+.rooms-button:hover {
+  background-color: #45a049;
 }
 
-.form-message {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  border-radius: 5px;
+.rooms-message {
   text-align: center;
-  font-weight: bold;
+  margin-top: 1rem;
 }
 
-.form-message.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+.rooms-message.success {
+  color: green;
 }
 
-.form-message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+.rooms-message.error {
+  color: red;
 }
