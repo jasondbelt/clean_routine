@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../index.css'; // Make sure the path is correct if your file structure differs
 
-// Define base URLs for rooms and tasks from backend API
 const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;
 
-// Predefined room names for the dropdown
 const predefinedRoomNames = ['Bathroom', 'Bedroom', 'Garage', 'Kitchen', 'Laundry Room', 'Office'];
 
 const RoomsPage = () => {
   const [roomName, setRoomName] = useState('');
   const [selectedDropdown, setSelectedDropdown] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
 
   const handleRoomNameChange = (e) => {
     setRoomName(e.target.value);
@@ -20,7 +21,7 @@ const RoomsPage = () => {
   const handleDropdownChange = (e) => {
     const value = e.target.value;
     setSelectedDropdown(value);
-    setRoomName(value); // Sync input with dropdown
+    setRoomName(value);
   };
 
   const handleImageUrlChange = (e) => {
@@ -45,19 +46,24 @@ const RoomsPage = () => {
 
       console.log('Room created successfully:', response.data);
 
-      // Optionally reset form
+      setMessage('Room created successfully!');
+      setIsError(false);
+
       setRoomName('');
       setSelectedDropdown('');
       setImageUrl('');
     } catch (error) {
       console.error('Error creating room:', error.response ? error.response.data : error.message);
+
+      setMessage('Failed to create room. Please try again.');
+      setIsError(true);
     }
   };
 
   return (
-    <div>
+    <div className="rooms-container">
       <h2>Create New Room</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="rooms-form">
         <div>
           <label htmlFor="room_select">Choose a Room Name:</label>
           <select
@@ -75,7 +81,7 @@ const RoomsPage = () => {
         </div>
 
         <div>
-          <label htmlFor="room_name">Room Name:</label>
+          <label htmlFor="room_name">Room Name (Capitalized Format Required):</label>
           <input
             type="text"
             id="room_name"
@@ -98,6 +104,12 @@ const RoomsPage = () => {
         </div>
 
         <button type="submit">Create Room</button>
+
+        {message && (
+          <p className={isError ? 'form-message error' : 'form-message success'}>
+            {message}
+          </p>
+        )}
       </form>
     </div>
   );

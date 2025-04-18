@@ -6,9 +6,13 @@ from django.core.exceptions import ValidationError
 
 # validator ensures room names are capitalized
 def validate_capitalized(value):
-    if value != value.capitalize():
-        raise ValidationError('Room name must be capitalized (e.g., "Kitchen").')
-    
+    # Split the value into words and capitalize each one
+    words = value.split()
+    # Check if each word is capitalized correctly
+    for word in words:
+        if word != word.capitalize():
+            raise ValidationError('Each word in the room name must be capitalized (e.g., "Kitchen" or "Living Room").')
+
 # Validator to ensure the URL points to an image
 def validate_image_url(value):
     # Regular expression to match common image file extensions
