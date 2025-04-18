@@ -12,7 +12,7 @@ const LoginPage = () => {
   const [err, setErr] = useState('')
   const [successMsg, setSuccessMsg] = useState('');
 
-  // calls cusom login function
+  // calls custom login function when user clicks login button
   const handleLogin = async () => {
     try {
       const success = await login(username, password);
@@ -25,9 +25,11 @@ const LoginPage = () => {
           nav('/');
         }, 1000);
       } else {
+        // shows error message for failed login
         setErr('Invalid username or password.');
         setSuccessMsg('');
       }
+    // catches other unexpected errors
     } catch (error) {
       console.error('Login request failed:', error);
       setErr('Something went wrong. Please try again later.');
@@ -35,12 +37,13 @@ const LoginPage = () => {
     }
   };
   
-  // simply naviages to registration page
+  // naviages to registration page when user clicks signup text
   const handleNav = () => {
     nav('/register');
   };
 
   return (
+    // centered container uses Chakra UI FlexBox
     <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4}>
       <Box bg="white" p={8} rounded="md" shadow="md" w="100%" maxW="md">
         <VStack spacing={4}>

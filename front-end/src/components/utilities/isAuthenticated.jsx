@@ -1,4 +1,5 @@
-// // isAuthenticated.jsx
+// isAuthenticated.jsx
+// NOTE: NOT UTILIZED, USED BACKEND TO AUTHENTICATE USER
 export const isAuthenticated = () => {
   try {
     const user = JSON.parse(localStorage.getItem('user'));

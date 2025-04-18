@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 const Error404Page = () => {
   const navigate = useNavigate();
 
+  // 2-second delay before redirecting to homepage
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/');
-    }, 2000); // 2-second delay before redirect
-
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }, 2000); 
+    
+    // cleanup timer on unmount
+    return () => clearTimeout(timer); 
   }, [navigate]);
 
   return (

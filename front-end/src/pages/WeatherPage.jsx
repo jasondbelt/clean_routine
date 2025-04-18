@@ -1,18 +1,23 @@
 // WEATHERPAGE.JSX
 import React, { useState } from 'react';
+// imports function to fetch weather data from third party api
 import { get_forecast } from '../endpoints/thirdparty_api';
 
 function WeatherPage() {
+  // initial states to hold values and error messages
   const [city, setCity] = useState('');
   const [forecast, setForecast] = useState(null);
   const [error, setError] = useState('');
 
+  // fetches weather data basd on city
   const handleFetch = async () => {
     const data = await get_forecast(city);
+    // sets forecast data if successful, clears any previous errors
     if (data) {
       setForecast(data);
       setError('');
     } else {
+      // clears forecast, sets error message
       setForecast(null);
       setError('Could not fetch weather data. Try a different city.');
     }
