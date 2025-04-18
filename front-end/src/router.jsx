@@ -3,6 +3,7 @@ import App from "./App"
 import HomePage from './auth_pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import RoomsPage from './pages/RoomsPage'
+import CalendarPage from './pages/CalendarPage'
 import WeatherPage from './pages/WeatherPage'
 import MenuPage from './auth_pages/MenuPage'
 import LoginPage from "./auth_pages/LoginPage"
@@ -10,8 +11,10 @@ import RegisterPage from './auth_pages/RegisterPage'
 import ProtectedRoutes from './components/utilities/ProtectedRoutes'
 import Error404Page from "./auth_pages/Error404Page"
 
+// defines application routes using 'createBrowserRouter'
 const router = createBrowserRouter([
   {
+    // root path of application
     path: "/",
     element: <App />,
     children: [
@@ -32,11 +35,15 @@ const router = createBrowserRouter([
         element: <RegisterPage/>
       },
       {
-        element: <ProtectedRoutes />, // 👈 Wrap protected routes here
+        element: <ProtectedRoutes />, // Wraps protected routes
         children: [
           {
             path: "rooms/",
             element: <RoomsPage/>
+          },
+          {
+            path: "calendar/",
+            element: <CalendarPage/>
           },
           {
             path: "weather/",
@@ -49,6 +56,7 @@ const router = createBrowserRouter([
         ]
       },
     ],
+    // renders error=page for non-matching routes
     errorElement: <Error404Page />,
   },
 ]);

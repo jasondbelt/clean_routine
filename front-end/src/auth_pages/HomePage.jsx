@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { get_random_quote } from '../endpoints/other_api'; // adjust the path if needed
+import { get_random_quote } from '../endpoints/thirdparty_api'; 
 
 const HomePage = () => {
+  // state to store the quote text and author
   const [quote, setQuote] = useState('');
   const [author, setAuthor] = useState('');
 
+  // runs fetchQuote from 3rd party API once when the component mounts
   useEffect(() => {
     const fetchQuote = async () => {
       const quoteData = await get_random_quote();
@@ -13,7 +15,7 @@ const HomePage = () => {
         setAuthor(quoteData.author);
       }
     };
-
+    // empty dependency array ensures this only runs once on mount
     fetchQuote();
   }, []);
 

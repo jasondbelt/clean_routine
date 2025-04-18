@@ -12,35 +12,41 @@ const RegisterPage = () => {
   const [err, setErr] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
+  // handles registration for submission calling custom API
   const handleRegister = async () => {
     try {
       const result = await register(username, email, password);
 
+      // if successful, redirect to login after short-delay 
       if (result && result.username) {
         setSuccessMsg("Registration successful! Redirecting to login...");
         setErr("");
-
+        
         setTimeout(() => {
           nav("/login");
         }, 1500);
       } else {
+        // handle registration failing without a server error
         setErr("Registration failed.");
         setSuccessMsg("");
       }
     } catch (error) {
+      // handle errors returned form server
       console.error("Registration request failed:", error);
       const backendError = error?.response?.data;
+      // format backend error messages, if any
       const formattedError =
         typeof backendError === "object"
           ? Object.values(backendError).flat().join(" ")
           : "Something went wrong. Please try again later.";
-
+      // show formatted error, clear any previous success message
       setErr(formattedError);
       setSuccessMsg("");
     }
   };
 
   return (
+    // utilizes Chakra UI Flex
     <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4}>
       <Box bg="white" p={8} rounded="md" shadow="md" w="100%" maxW="md">
         <VStack spacing={4}>

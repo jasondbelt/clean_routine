@@ -58,10 +58,11 @@ export const logout = async () => {
     return true
   } catch (error) {
     console.error("Logout failed:", error);
-    return false; // Return false if refresh failed
+    return false; 
   }
 }
 
+// checks user authentication from backend
 export const is_authenticated = async () => {
   try {
     await axios.post(AUTH_URL, {}, {withCredentials: true})

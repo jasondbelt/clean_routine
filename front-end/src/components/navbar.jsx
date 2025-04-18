@@ -9,16 +9,19 @@ import {
 } from '@chakra-ui/react';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { logout, is_authenticated } from '../endpoints/auth_api';
-import { isAuthenticated } from './utilities/isAuthenticated';
 
+// menu items for authenticated users
+// action means it triggers a function
 const menuItemsLoggedIn = [
   { label: "Home", url: "/" },
   { label: "About", url: "/about/" },
   { label: "Rooms", url: "/rooms/" },
+  { label: "Schedule", url: "/calendar/" },
   { label: "Weather", url: "/weather/" },
   { label: "Logout", action: true },
 ];
 
+// menu items for unauthenticated users
 const menuItemsLoggedOut = [
   { label: "Home", url: "/" },
   { label: "About", url: "/about/" },
@@ -27,31 +30,32 @@ const menuItemsLoggedOut = [
 
 export function Navbar() {
   const navigate = useNavigate();
+  // hook to get current route
   const location = useLocation();
-  const [authenticated, setAuthenticated] = useState(isAuthenticated());
+  // track login status, initially set to false
+  const [authenticated, setAuthenticated] = useState(false);
 
-  // 🔁 Update auth state when route changes or when localStorage is updated
-  // import { is_authenticated } from '../endpoints/auth_api'; // use backend auth check
+  // checks login status on mount and whenever location changes
+  useEffect(() => {
+    const updateAuthStatus = async () => {
+      const auth = await is_authenticated();
+      setAuthenticated(auth);
+    };
+    // initial authentication check
+    updateAuthStatus();
+    // listen for storage changes to sycn auth status across tabs
+    window.addEventListener('storage', updateAuthStatus);
 
-useEffect(() => {
-  const updateAuthStatus = async () => {
-    const auth = await is_authenticated();
-    setAuthenticated(auth);
-  };
+    return () => {
+      window.removeEventListener('storage', updateAuthStatus);
+    };
+  }, [location]);
 
-  updateAuthStatus(); // on mount and route change
-  window.addEventListener('storage', updateAuthStatus); // for cross-tab sync
-
-  return () => {
-    window.removeEventListener('storage', updateAuthStatus);
-  };
-}, [location]);
-
-
+  // handles logout process utilizing logout API
   const handleLogout = async () => {
     const success = await logout();
     if (success) {
-      localStorage.removeItem('user');
+      // clears auth state and redirects to login page
       setAuthenticated(false);
       navigate('/login');
     } else {
@@ -59,6 +63,7 @@ useEffect(() => {
     }
   };
 
+  // determines which menuItems to show based on auth status
   const menuItems = authenticated ? menuItemsLoggedIn : menuItemsLoggedOut;
 
   return (
@@ -102,3 +107,4 @@ useEffect(() => {
     </Flex>
   );
 }
+

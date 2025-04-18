@@ -1,4 +1,5 @@
 //MENUPAGE.jsx
+// PURELY UTILIZED FOR DEBUGGING
 import { VStack, Heading, Text, Button} from "@chakra-ui/react";
 import { useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
