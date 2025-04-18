@@ -1,6 +1,6 @@
 // WEATHERPAGE.JSX
 import React, { useState } from 'react';
-import { get_forecast } from '../endpoints/other_api';
+import { get_forecast } from '../endpoints/thirdparty_api';
 
 function WeatherPage() {
   const [city, setCity] = useState('');

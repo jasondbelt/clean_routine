@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { get_random_quote } from '../endpoints/other_api'; // adjust the path if needed
+import { get_random_quote } from '../endpoints/thirdparty_api'; // adjust the path if needed
 
 const HomePage = () => {
   const [quote, setQuote] = useState('');
