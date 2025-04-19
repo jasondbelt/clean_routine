@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../css_files/schedule.css'; // Styling lives here
+import '../css_files/schedule.css';
 
 const SchedulePage = () => {
-  // initialize states
+  // initial states
   const [selectedDay, setSelectedDay] = useState('Monday');
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
+  const [showNoTasks, setShowNoTasks] = useState(false);
 
-  // array of days used to populate dropdown
+  // array of days used to populate dropdown menu
   const daysOfWeek = [
-     'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
   ];
 
-  // updates selected day when dropdown value changes
+  // update the selected day when the user changes the dropdown menu
   const handleDayChange = (e) => {
     setSelectedDay(e.target.value);
   };
 
-  // fetches tasks from backend based on selected day
+  // fetch tasks for seleted day using backend API
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,10 +29,19 @@ const SchedulePage = () => {
       );
       setTasks(response.data);
       setError(null);
+
+      // if no tasks, show "no tasks" message briefly
+      if (response.data.length === 0) {
+        setShowNoTasks(true);
+        setTimeout(() => setShowNoTasks(false), 1500);
+      } else {
+        setShowNoTasks(false);
+      }
     } catch (error) {
       console.error(error);
       setError('Failed to fetch tasks for the selected day.');
       setTasks([]);
+      setShowNoTasks(false);
     }
   };
 
@@ -74,7 +84,11 @@ const SchedulePage = () => {
               ))}
             </ul>
           ) : (
-            <p className="no-tasks-message">You don't have any tasks assigned for {selectedDay}.</p>
+            showNoTasks && (
+              <p className="no-tasks-message">
+                You don't have any tasks assigned for {selectedDay}.
+              </p>
+            )
           )}
         </div>
       </div>
