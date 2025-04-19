@@ -1,7 +1,7 @@
 /* === Weather Page Styles === */
 .weather-wrapper {
   min-height: 100vh;
-  background-image: url('../assets/sunny.jpg'); /* Weather-style image */
+  background-image: url('../assets/sunny.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -12,7 +12,6 @@
   padding-top: 3rem;
 }
 
-/* Optional: semi-transparent overlay */
 .weather-wrapper::before {
   content: "";
   position: absolute;

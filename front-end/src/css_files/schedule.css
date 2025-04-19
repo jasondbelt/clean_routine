@@ -3,10 +3,10 @@
 .schedule-wrapper {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align to top instead of center */
+  align-items: flex-start; 
   min-height: 100vh;
   padding-top: 2rem;
-  background-image: url('../assets/schedule.jpg'); /* Replace with your actual image URL */
+  background-image: url('../assets/schedule.jpg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
