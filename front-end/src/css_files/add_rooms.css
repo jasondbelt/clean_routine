@@ -1,0 +1,57 @@
+/* === AddRoomsPage Styles === */
+
+.rooms-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures the content is vertically centered */
+  background-image: url('../assets/room.jpg'); /* Replace with your actual image URL */
+  background-size: cover; /* Ensures the image covers the entire screen */
+  background-position: center center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents repeating the image */
+}
+
+.rooms-container {
+  background: rgba(255, 255, 255, 0.8); /* Optional: adds a slight background for contrast */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rooms-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.rooms-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rooms-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.rooms-button:hover {
+  background-color: #45a049;
+}
+
+.rooms-message {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.rooms-message.success {
+  color: green;
+}
+
+.rooms-message.error {
+  color: red;
+}

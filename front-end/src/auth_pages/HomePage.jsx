@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { get_random_quote } from '../endpoints/thirdparty_api'; 
+import '../css_files/home.css'
 
 const HomePage = () => {
   // state to store the quote text and author

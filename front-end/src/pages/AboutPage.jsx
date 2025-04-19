@@ -1,4 +1,6 @@
 // AboutPage.jsx
+import '../css_files/about.css'
+
 const AboutPage = () => {
   return (
     <div className="about-section">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../index.css'; // Make sure the path is correct if your file structure differs
+import '../css_files/add_rooms.css'
 
 const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;
