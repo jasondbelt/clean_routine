@@ -10,7 +10,7 @@ const SchedulePage = () => {
 
   // array of days used to populate dropdown
   const daysOfWeek = [
-    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+     'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
   ];
 
   // updates selected day when dropdown value changes
