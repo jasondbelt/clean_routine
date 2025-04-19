@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { VStack, Heading, Text, Button } from "@chakra-ui/react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../css_files/schedule.css'; // Make sure this file exists
 
 const SchedulePage = () => {
-  const [selectedDay, setSelectedDay] = useState("Monday");
+  const [selectedDay, setSelectedDay] = useState('Monday');
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
 
   const daysOfWeek = [
-    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
   ];
 
   const handleDayChange = (e) => {
@@ -26,46 +26,46 @@ const SchedulePage = () => {
       setError(null);
     } catch (error) {
       console.error(error);
-      setError("Failed to fetch tasks for the selected day.");
+      setError('Failed to fetch tasks for the selected day.');
       setTasks([]);
     }
   };
 
   return (
-    <VStack spacing={4}>
-      <Heading>Schedule</Heading>
-      <form onSubmit={handleSubmit}>
-        <VStack>
-          <label htmlFor="day" className="mr-2">
-            Select Day:
-          </label>
-          <select
-            id="day"
-            value={selectedDay}
-            onChange={handleDayChange}
-            className="p-2 border rounded-md"
-          >
-            {daysOfWeek.map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
+    <div className="schedule-wrapper">
+      <div className="schedule-container">
+        <h2 className="schedule-title">View Daily Schedule</h2>
+        <form onSubmit={handleSubmit} className="schedule-form">
+          <div>
+            <label htmlFor="day_select">Choose a Day:</label>
+            <select
+              id="day_select"
+              value={selectedDay}
+              onChange={handleDayChange}
+            >
+              {daysOfWeek.map((day, index) => (
+                <option key={index} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <Button type="submit" colorScheme="blue" size="sm">
-            Get Tasks
-          </Button>
-        </VStack>
-      </form>
+          <button type="submit" className="schedule-button">Get Tasks</button>
 
-      {error && <Text color="red.500">{error}</Text>}
+          {error && <p className="schedule-message error">{error}</p>}
+        </form>
 
-      {tasks.length > 0 && (
-        <pre className="bg-gray-100 p-4 rounded-md">
-          {JSON.stringify(tasks, null, 2)}
-        </pre>
-      )}
-    </VStack>
+        {tasks.length > 0 && (
+          <div className="schedule-tasks">
+            <h3 className="schedule-subtitle">Tasks for {selectedDay}:</h3>
+            <pre className="schedule-task-data">
+              {JSON.stringify(tasks, null, 2)}
+            </pre>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

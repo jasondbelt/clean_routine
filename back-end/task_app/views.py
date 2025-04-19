@@ -35,16 +35,9 @@ class All_tasks(APIView):
         return Response(tasks_ser.data)
     
 
-# # view all tasks by day
-# class Tasks_by_day(APIView):
-    
-#     # retrieve all tasks by day
-#     def get(self, request, day):
-#         # filter by user and day of week, sort by time of day
-#         tasks = Task.objects.filter(user=request.user, day_of_week=day).order_by('time_of_day')
-#         # serialize and return as a response
-#         tasks_ser = DayTasksSerializer(tasks, many=True)
-#         return Response(tasks_ser.data)
+# had to use decorator and permission class to be able to authenticate get on front-end
+# filter tasks by down by user and day of week and returned in serializer response
+# and format it it
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def Tasks_by_day(request, day):
@@ -54,8 +47,6 @@ def Tasks_by_day(request, day):
     return Response(tasks_serializer.data)
 
 
-
-    
 # view all tasks within a specific room, post new tasks
 class CR_all_room_tasks(APIView):
 
