@@ -1,4 +1,6 @@
 #TASK_APP.VIEWS
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -33,16 +35,25 @@ class All_tasks(APIView):
         return Response(tasks_ser.data)
     
 
-# view all tasks by day
-class Tasks_by_day(APIView):
+# # view all tasks by day
+# class Tasks_by_day(APIView):
     
-    # retrieve all tasks by day
-    def get(self, request, day):
-        # filter by user and day of week, sort by time of day
-        tasks = Task.objects.filter(user=request.user, day_of_week=day).order_by('time_of_day')
-        # serialize and return as a response
-        tasks_ser = DayTasksSerializer(tasks, many=True)
-        return Response(tasks_ser.data)
+#     # retrieve all tasks by day
+#     def get(self, request, day):
+#         # filter by user and day of week, sort by time of day
+#         tasks = Task.objects.filter(user=request.user, day_of_week=day).order_by('time_of_day')
+#         # serialize and return as a response
+#         tasks_ser = DayTasksSerializer(tasks, many=True)
+#         return Response(tasks_ser.data)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def Tasks_by_day(request, day):
+    user = request.user
+    tasks = Task.objects.filter(user=user, day_of_week=day).order_by('time_of_day')
+    tasks_serializer = DayTasksSerializer(tasks, many=True)
+    return Response(tasks_serializer.data)
+
+
 
     
 # view all tasks within a specific room, post new tasks

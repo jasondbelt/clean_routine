@@ -1,81 +1,71 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import '../css_files/schedule.css'
-
-// BASE URLS
-const BASE_URL = 'http://localhost:8000/';
-const SCHEDULE_URL = `${BASE_URL}api/tasks/day/`;
-
-const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+import React, { useState } from "react";
+import { VStack, Heading, Text, Button } from "@chakra-ui/react";
+import axios from "axios";
 
 const SchedulePage = () => {
-  const [selectedDay, setSelectedDay] = useState('');
+  const [selectedDay, setSelectedDay] = useState("Monday");
   const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleDropdownChange = (e) => {
+  const daysOfWeek = [
+    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+  ];
+
+  const handleDayChange = (e) => {
     setSelectedDay(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!selectedDay) {
-      console.warn('No day selected');
-      return;
-    }
-
-    const requestUrl = `${SCHEDULE_URL}${selectedDay}/`;
-    console.log('Fetching tasks from:', requestUrl);
-
     try {
-      const response = await axios.get(requestUrl, {
-        withCredentials: true,
-      });
-
-      console.log('Day viewed successfully:', response.data);
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/tasks/day/${selectedDay}/`,
+        { withCredentials: true }
+      );
       setTasks(response.data);
-      setSelectedDay('');
+      setError(null);
     } catch (error) {
-      console.error('Error fetching tasks:', error.response?.data || error.message);
+      console.error(error);
+      setError("Failed to fetch tasks for the selected day.");
+      setTasks([]);
     }
   };
 
   return (
-    <div className="schedule-wrapper">
-      <div className="schedule-container">
-        <h2 className="schedule-title">View Schedule</h2>
-        <form onSubmit={handleSubmit} className="schedule-form">
-          <div>
-            <label htmlFor="day_select">Choose a Day:</label>
-            <select
-              id="day_select"
-              value={selectedDay}
-              onChange={handleDropdownChange}
-            >
-              <option value="">-- Select a Day --</option>
-              {daysOfWeek.map((day, index) => (
-                <option key={index} value={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button type="submit" className="schedule-button">View Day</button>
-        </form>
+    <VStack spacing={4}>
+      <Heading>Schedule</Heading>
+      <form onSubmit={handleSubmit}>
+        <VStack>
+          <label htmlFor="day" className="mr-2">
+            Select Day:
+          </label>
+          <select
+            id="day"
+            value={selectedDay}
+            onChange={handleDayChange}
+            className="p-2 border rounded-md"
+          >
+            {daysOfWeek.map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
 
-        {/* Optional: Display fetched tasks */}
-        {tasks.length > 0 && (
-          <div className="tasks-display">
-            <h3>Tasks for {selectedDay}</h3>
-            <ul>
-              {tasks.map((task, index) => (
-                <li key={index}>{task.name || JSON.stringify(task)}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </div>
+          <Button type="submit" colorScheme="blue" size="sm">
+            Get Tasks
+          </Button>
+        </VStack>
+      </form>
+
+      {error && <Text color="red.500">{error}</Text>}
+
+      {tasks.length > 0 && (
+        <pre className="bg-gray-100 p-4 rounded-md">
+          {JSON.stringify(tasks, null, 2)}
+        </pre>
+      )}
+    </VStack>
   );
 };
 
