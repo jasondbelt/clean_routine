@@ -1,0 +1,58 @@
+/* === SchedulePage Styles === */
+
+.schedule-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to top instead of center */
+  min-height: 100vh;
+  padding-top: 2rem;
+  background-image: url('../assets/schedule.jpg'); /* Replace with your actual image URL */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.schedule-container {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.schedule-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.schedule-button:hover {
+  background-color: #45a049;
+}
+
+.schedule-message {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.schedule-message.success {
+  color: green;
+}
+
+.schedule-message.error {
+  color: red;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import Cookies from 'js-cookie';  // Import js-cookie
+import '../css_files/schedule.css'
 
 // BASE URLS
 const BASE_URL = 'http://localhost:8000/';
@@ -10,7 +10,7 @@ const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fri
 
 const SchedulePage = () => {
   const [selectedDay, setSelectedDay] = useState('');
-  const [tasks, setTasks] = useState([]); // Optional: to display tasks
+  const [tasks, setTasks] = useState([]);
 
   const handleDropdownChange = (e) => {
     setSelectedDay(e.target.value);
@@ -18,35 +18,33 @@ const SchedulePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!selectedDay) {
       console.warn('No day selected');
       return;
     }
-  
+
     const requestUrl = `${SCHEDULE_URL}${selectedDay}/`;
     console.log('Fetching tasks from:', requestUrl);
-  
+
     try {
-      // Send the request with 'withCredentials: true', the browser will include the token automatically.
       const response = await axios.get(requestUrl, {
-        withCredentials: true, // Ensure the cookie is sent with the request
+        withCredentials: true,
       });
-  
+
       console.log('Day viewed successfully:', response.data);
-      setTasks(response.data); // Optional: store the results
+      setTasks(response.data);
       setSelectedDay('');
     } catch (error) {
       console.error('Error fetching tasks:', error.response?.data || error.message);
     }
   };
-  
 
   return (
-    <div className="rooms-wrapper">
-      <div className="rooms-container">
-        <h2 className="rooms-title">View Schedule</h2>
-        <form onSubmit={handleSubmit} className="rooms-form">
+    <div className="schedule-wrapper">
+      <div className="schedule-container">
+        <h2 className="schedule-title">View Schedule</h2>
+        <form onSubmit={handleSubmit} className="schedule-form">
           <div>
             <label htmlFor="day_select">Choose a Day:</label>
             <select
@@ -62,7 +60,7 @@ const SchedulePage = () => {
               ))}
             </select>
           </div>
-          <button type="submit" className="rooms-button">View Day</button>
+          <button type="submit" className="schedule-button">View Day</button>
         </form>
 
         {/* Optional: Display fetched tasks */}
