@@ -1,9 +1,7 @@
-/* === SchedulePage Styles === */
-
 .schedule-wrapper {
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
+  align-items: flex-start;
   min-height: 100vh;
   padding-top: 2rem;
   background-image: url('../assets/schedule.jpg');
@@ -66,7 +64,6 @@
   padding-bottom: 0.3rem;
   display: inline-block;
 }
-
 
 .task-list {
   list-style-type: none;
