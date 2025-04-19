@@ -18,7 +18,6 @@ const AboutPage = () => {
         <li>✔ Routines that match your lifestyle</li>
         <li>✔ Less stress and a cozy, clean home</li>
         <li>✔ Add, edit, or remove rooms and their tasks</li>
-        <li>✔ Use default options or create your own</li>
         <li>✔ View your personalized schedule by day of the week</li>
         <li>✔ Search local weather by city to help plan your schedule</li>
       </ul>
