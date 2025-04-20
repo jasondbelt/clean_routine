@@ -51,6 +51,12 @@ const ViewRoomsPage = () => {
   };
 
   const handleSave = async (originalName) => {
+    // Check if the name is empty or contains only spaces
+    if (!newName.trim()) {
+      alert('Room name cannot be empty or just spaces.');
+      return; // Do not proceed with the save if the name is invalid
+    }
+
     try {
       await axios.put(
         `${BASE_ROOMS_URL}roomname/${originalName}/`,
@@ -60,6 +66,9 @@ const ViewRoomsPage = () => {
       setEditingRoom(null);
       fetchRooms();
     } catch (err) {
+      // Assuming the backend returns a meaningful error message, we'll show it in the alert
+      const errorMessage = err.response?.data?.detail || 'Invalid room name!';
+      alert(errorMessage);
       console.error('Update error:', err);
     }
   };
