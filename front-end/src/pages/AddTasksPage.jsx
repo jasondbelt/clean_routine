@@ -5,24 +5,26 @@ import '../css_files/add_tasks.css'; // Import the CSS file
 
 const AddTasksPage = () => {
   const [rooms, setRooms] = useState([]);
+  const [tasks, setTasks] = useState([]); // State to hold tasks
   const [roomId, setRoomId] = useState('');
   const [description, setDescription] = useState('');
   const [dayOfWeek, setDayOfWeek] = useState('Monday');
   const [timeOfDay, setTimeOfDay] = useState('');
   const toast = useToast(); // Initialize Chakra's useToast hook
 
-  // Fetch available rooms when component mounts
+  // Fetch available rooms and tasks when component mounts
   useEffect(() => {
-    const fetchRooms = async () => {
+    const fetchRoomsAndTasks = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/rooms/', {
-          withCredentials: true, // Ensure credentials (cookies) are sent
-        });
+        const [roomsResponse, tasksResponse] = await Promise.all([
+          axios.get('http://127.0.0.1:8000/api/rooms/', { withCredentials: true }),
+          axios.get('http://127.0.0.1:8000/api/tasks/', { withCredentials: true }), // Fetch tasks
+        ]);
 
-        if (response.status === 200) {
-          setRooms(response.data);
-          if (response.data.length > 0) {
-            setRoomId(response.data[0].id); // Set default room as first room
+        if (roomsResponse.status === 200) {
+          setRooms(roomsResponse.data);
+          if (roomsResponse.data.length > 0) {
+            setRoomId(roomsResponse.data[0].id); // Set default room as first room
           }
         } else {
           toast({
@@ -32,9 +34,20 @@ const AddTasksPage = () => {
             isClosable: true,
           });
         }
+
+        if (tasksResponse.status === 200) {
+          setTasks(tasksResponse.data); // Set the fetched tasks
+        } else {
+          toast({
+            title: 'Failed to fetch tasks.',
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+          });
+        }
       } catch (err) {
         toast({
-          title: 'Error fetching rooms.',
+          title: 'Error fetching rooms and tasks.',
           status: 'error',
           duration: 2000,
           isClosable: true,
@@ -43,7 +56,7 @@ const AddTasksPage = () => {
       }
     };
 
-    fetchRooms();
+    fetchRoomsAndTasks();
   }, [toast]);
 
   const handleSubmit = async (e) => {
@@ -71,6 +84,11 @@ const AddTasksPage = () => {
           duration: 2000,
           isClosable: true,
         });
+
+        // Update the tasks list dynamically
+        setTasks(prevTasks => [...prevTasks, response.data]); // Add the new task to the list
+
+        // Clear form fields
         setDescription('');
         setDayOfWeek('Monday');
         setTimeOfDay('');
@@ -93,11 +111,15 @@ const AddTasksPage = () => {
     }
   };
 
+  // Function to get the room name from the rooms state
+  const getRoomName = (roomId) => {
+    const room = rooms.find((room) => room.id === roomId);
+    return room ? room.room_name : 'Unknown Room';
+  };
+
   return (
     <div className="task-container text-center">
       <h2 className="text-4xl font-bold">Task Manager</h2>
-
-      {/* Removed manual toast handling; now handled via Chakra's toast */}
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
         <label>
@@ -159,6 +181,18 @@ const AddTasksPage = () => {
           Add Task
         </button>
       </form>
+
+      {/* Display Tasks Below Form */}
+      <div className="mt-8">
+        <h3 className="text-2xl font-semibold">Existing Tasks:</h3>
+        <ul className="mt-4">
+          {tasks.map((task) => (
+            <li key={task.id} className="border-b py-2">
+              <strong>{task.description}</strong> - {getRoomName(task.room_id)} - {task.day_of_week} at {task.time_of_day}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
