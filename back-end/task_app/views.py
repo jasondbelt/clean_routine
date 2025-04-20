@@ -14,6 +14,14 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST
 )
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def Tasks_by_day(request, day):
+    user = request.user
+    tasks = Task.objects.filter(user=user, day_of_week=day).order_by('time_of_day')
+    tasks_serializer = DayTasksSerializer(tasks, many=True)
+    return Response(tasks_serializer.data)
+
 # view all tasks
 class All_tasks(APIView):
     
@@ -38,13 +46,7 @@ class All_tasks(APIView):
 # had to use decorator and permission class to be able to authenticate get on front-end
 # filter tasks by down by user and day of week and returned in serializer response
 # and format it it
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def Tasks_by_day(request, day):
-    user = request.user
-    tasks = Task.objects.filter(user=user, day_of_week=day).order_by('time_of_day')
-    tasks_serializer = DayTasksSerializer(tasks, many=True)
-    return Response(tasks_serializer.data)
+
 
 
 # view all tasks within a specific room, post new tasks
