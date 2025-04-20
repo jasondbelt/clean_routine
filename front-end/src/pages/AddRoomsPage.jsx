@@ -55,19 +55,30 @@ const AddRoomsPage = () => {
       });
 
       console.log('Room created successfully:', response.data);
-      // show success message and reset form
+      // show success message
       setMessage('Room created successfully!');
       setIsError(false);
 
+      // Reset form values
       setRoomName('');
       setSelectedDropdown('');
       setImageUrl('');
+
+      // Clear the message after 1.5 seconds
+      setTimeout(() => {
+        setMessage('');
+      }, 1500);
     } catch (error) {
       // handle error and show message
       console.error('Error creating room:', error.response ? error.response.data : error.message);
       
       setMessage('Failed to create room. Please try again.');
       setIsError(true);
+
+      // Clear the message after 1.5 seconds
+      setTimeout(() => {
+        setMessage('');
+      }, 1500);
     }
   };
 
