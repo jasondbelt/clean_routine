@@ -4,6 +4,7 @@ import { useToast } from '@chakra-ui/react';
 import '../css_files/add_tasks.css';
 
 const AddTasksPage = () => {
+  // state variables
   const [rooms, setRooms] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [roomId, setRoomId] = useState('');
@@ -12,14 +13,15 @@ const AddTasksPage = () => {
   const [timeOfDay, setTimeOfDay] = useState('');
   const toast = useToast();
 
-  // Fetch rooms and tasks
+  // Fetch rooms and tasks from backend at the same time
   const fetchRoomsAndTasks = async () => {
     try {
       const [roomsRes, tasksRes] = await Promise.all([
         axios.get('http://127.0.0.1:8000/api/rooms/', { withCredentials: true }),
         axios.get('http://127.0.0.1:8000/api/tasks/', { withCredentials: true }),
       ]);
-
+      // if successful, update state and set default roomID
+      // as routes need access to it
       if (roomsRes.status === 200) {
         setRooms(roomsRes.data);
         if (roomsRes.data.length > 0) {
@@ -41,6 +43,7 @@ const AddTasksPage = () => {
     }
   };
 
+  // run get requests upon initial render
   useEffect(() => {
     const fetchData = async () => {
       await fetchRoomsAndTasks();
@@ -50,9 +53,11 @@ const AddTasksPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
+  // handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // create task data object to be sent in POST request
     const taskData = {
       description,
       day_of_week: dayOfWeek,
@@ -92,6 +97,7 @@ const AddTasksPage = () => {
     }
   };
 
+  // function to get the room name by id
   const getRoomName = (id) => {
     const room = rooms.find((room) => room.id === id);
     return room ? room.room_name : 'Unknown Room';
