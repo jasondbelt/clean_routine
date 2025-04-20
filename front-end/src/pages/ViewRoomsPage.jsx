@@ -24,8 +24,11 @@ import {
   List,
   ListItem,
   Divider,
+  Flex,
+  HStack,
 } from '@chakra-ui/react';
-const BASE_URL = 'http://127.0.0.1:8000/'
+
+const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`; // Ensure BASE_URL is defined
 
 const ViewRoomsPage = () => {
@@ -54,7 +57,17 @@ const ViewRoomsPage = () => {
         {rooms.map((room, index) => (
           <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
             <CardHeader>
-              <Heading size="md">{room.room_name}</Heading>
+              <Flex justify="space-between" align="center">
+                <Heading size="md">{room.room_name}</Heading>
+                <HStack spacing="2">
+                  <Button size="sm" colorScheme="blue" variant="outline">
+                    Edit
+                  </Button>
+                  <Button size="sm" colorScheme="red" variant="outline">
+                    Delete
+                  </Button>
+                </HStack>
+              </Flex>
             </CardHeader>
 
             <CardBody>
@@ -85,7 +98,7 @@ const ViewRoomsPage = () => {
             </CardBody>
 
             <CardFooter>
-              <Button colorScheme="teal">Book Now</Button>
+              {/* <Button colorScheme="teal">Book Now</Button> */}
             </CardFooter>
           </Card>
         ))}
@@ -95,5 +108,3 @@ const ViewRoomsPage = () => {
 };
 
 export default ViewRoomsPage;
-
-
