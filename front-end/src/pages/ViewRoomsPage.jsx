@@ -51,11 +51,25 @@
   ); */}
   import { useState } from 'react';
   import axios from 'axios';
-  import { Button, Box, Heading, Text } from '@chakra-ui/react';
-  
+  import {
+    Box,
+    Button,
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Heading,
+    Text,
+    Image,
+    VStack,
+    SimpleGrid,
+    List,
+    ListItem,
+    Divider,
+  } from '@chakra-ui/react';
   const BASE_URL = 'http://127.0.0.1:8000/'
   const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`; // Ensure BASE_URL is defined
-  
+
   const ViewRoomsPage = () => {
     const [rooms, setRooms] = useState([]);
   
@@ -73,17 +87,55 @@
   
     return (
       <Box p="2rem">
-        <Heading mb="1rem">Fetch Rooms JSON</Heading>
-        <Button colorScheme="teal" onClick={handleFetchRooms}>
-          Submit
+        <Heading mb="1rem">Your Rooms</Heading>
+        <Button colorScheme="teal" mb="2rem" onClick={handleFetchRooms}>
+          Load Rooms
         </Button>
   
-        <Box mt="2rem" whiteSpace="pre-wrap" fontFamily="monospace">
-          <Text>{JSON.stringify(rooms, null, 2)}</Text>
-        </Box>
+        <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
+          {rooms.map((room, index) => (
+            <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
+              <CardHeader>
+                <Heading size="md">{room.room_name}</Heading>
+              </CardHeader>
+  
+              <CardBody>
+                <Image
+                  src={room.image_url}
+                  alt={`${room.room_name} image`}
+                  borderRadius="md"
+                  mb="3"
+                />
+                {room.room_tasks.length > 0 ? (
+                  <>
+                    <Text fontWeight="bold" mb="2">Tasks:</Text>
+                    <List spacing={2}>
+                      {room.room_tasks.map((task, i) => (
+                        <ListItem key={i}>
+                          <Text>
+                            <strong>{task.description}</strong><br />
+                            <span>{task.day_of_week} at {task.time_of_day}</span>
+                          </Text>
+                          {i < room.room_tasks.length - 1 && <Divider my="2" />}
+                        </ListItem>
+                      ))}
+                    </List>
+                  </>
+                ) : (
+                  <Text>No tasks assigned.</Text>
+                )}
+              </CardBody>
+  
+              <CardFooter>
+                <Button colorScheme="teal">Book Now</Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </SimpleGrid>
       </Box>
     );
   };
   
   export default ViewRoomsPage;
+  
   
