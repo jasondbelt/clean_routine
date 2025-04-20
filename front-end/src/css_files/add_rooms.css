@@ -1,55 +1,30 @@
-/* .rooms-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-image: url('../assets/room.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+/* Center and resize the form */
+.add-room-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.rooms-container {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.form-label {
+  font-weight: bold;
 }
 
-.rooms-title {
+.form-input {
+  margin-bottom: 1rem;
+}
+
+/* Center the headings */
+.centered-heading {
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
 }
 
-.rooms-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .add-room-form {
+    max-width: 100%;
+    padding: 1rem;
+  }
 }
-
-.rooms-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.rooms-button:hover {
-  background-color: #45a049;
-}
-
-.rooms-message {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.rooms-message.success {
-  color: green;
-}
-
-.rooms-message.error {
-  color: red;
-} */

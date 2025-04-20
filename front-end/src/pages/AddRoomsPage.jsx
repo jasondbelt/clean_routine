@@ -4,6 +4,7 @@ import {
   Box, Button, Card, CardHeader, CardBody, Heading, Text, Input,
   Image, SimpleGrid, Flex, HStack, Select, VStack, FormControl, FormLabel, useToast
 } from '@chakra-ui/react';
+import '../css_files/add_rooms.css'; // Import the CSS file
 
 const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
@@ -76,14 +77,14 @@ const AddRoomsPage = () => {
 
   return (
     <Box p="2rem">
-      <Heading mb="1rem">Room Manager</Heading>
+      <Heading className="centered-heading" mb="1rem">Room Manager</Heading>
 
       <Box mb="3rem">
-        <Heading size="md" mb="1rem">Add New Room</Heading>
-        <form onSubmit={handleAddRoom}>
+        <Heading className="centered-heading" size="md" mb="1rem">Add New Room</Heading>
+        <form onSubmit={handleAddRoom} className="add-room-form">
           <VStack spacing="1rem" align="start">
             <FormControl>
-              <FormLabel>Choose a Room Name:</FormLabel>
+              <FormLabel className="form-label">Choose a Room Name:</FormLabel>
               <Select value={selectedDropdown} onChange={handleDropdownChange} placeholder="Custom">
                 {predefinedRoomNames.map((name, index) => (
                   <option key={index} value={name}>{name}</option>
@@ -91,13 +92,13 @@ const AddRoomsPage = () => {
               </Select>
             </FormControl>
 
-            <FormControl isRequired>
-              <FormLabel>Room Name:</FormLabel>
+            <FormControl isRequired className="form-input">
+              <FormLabel className="form-label">Room Name:</FormLabel>
               <Input value={roomName} onChange={(e) => setRoomName(e.target.value)} maxLength={20} disabled={selectedDropdown !== ''} />
             </FormControl>
 
-            <FormControl>
-              <FormLabel>Room Image URL:</FormLabel>
+            <FormControl className="form-input">
+              <FormLabel className="form-label">Room Image URL:</FormLabel>
               <Input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
             </FormControl>
 
