@@ -17,9 +17,10 @@ from rest_framework.status import (
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def All_rooms(request):
-    rooms = Room.objects.filter(user=request.user)
+    rooms = Room.objects.filter(user=request.user).order_by('room_name')
     rooms_serializer = RoomSerializer(rooms, many=True)
     return Response(rooms_serializer.data)
+
 # class All_rooms(APIView):
 
 #     def get(self, request):
