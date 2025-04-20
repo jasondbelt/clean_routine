@@ -7,7 +7,7 @@
 // path('day/<str:day>/', Tasks_by_day.as_view(), name='tasks_by_day'),
 // path('room_id/<int:room_id>/', CR_all_room_tasks.as_view(), name='cr_all_room_tasks'),
 // path('room_id/<int:room_id>/task_id/<int:task_id>/', RUD_room_tasks.as_view(), name='ud_room_tasks')
-import { useState } from 'react';
+import { useState, } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -27,39 +27,47 @@ import {
 } from '@chakra-ui/react';
 
 const BASE_URL = 'http://127.0.0.1:8000/';
-const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`; // Ensure BASE_URL is defined
+const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
 
 const ViewRoomsPage = () => {
   const [rooms, setRooms] = useState([]);
-  const [hasLoaded, setHasLoaded] = useState(false);  // State to track if the button has been clicked
+  const [hasLoaded, setHasLoaded] = useState(false);
 
-  const handleFetchRooms = async () => {
+  const fetchRooms = async () => {
     try {
       const response = await axios.get(BASE_ROOMS_URL, {
         withCredentials: true,
       });
-      console.log('Fetched Rooms:', response.data);
       setRooms(response.data);
-      setHasLoaded(true);  // Set to true after rooms are fetched
+      setHasLoaded(true);
     } catch (error) {
       console.error('Error fetching rooms:', error);
-      setHasLoaded(true);  // Set to true to display the message even in case of an error
+      setHasLoaded(true);
+    }
+  };
+
+  const handleDeleteRoom = async (roomName) => {
+    try {
+      await axios.delete(`${BASE_ROOMS_URL}roomname/${roomName}/`, {
+        withCredentials: true,
+      });
+      fetchRooms(); // Refresh rooms after delete
+    } catch (error) {
+      console.error('Error deleting room:', error);
     }
   };
 
   return (
     <Box p="2rem">
       <Heading mb="1rem">Your Rooms</Heading>
-      <Button colorScheme="teal" mb="2rem" onClick={handleFetchRooms}>
+      <Button colorScheme="teal" mb="2rem" onClick={fetchRooms}>
         Load Rooms
       </Button>
 
-      {/* Show message only after clicking the "Load Rooms" button */}
       {hasLoaded && rooms.length === 0 && (
         <Text>No rooms currently added.</Text>
       )}
 
-      {/* Render rooms if available */}
       {rooms.length > 0 && (
         <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
           {rooms.map((room, index) => (
@@ -71,7 +79,12 @@ const ViewRoomsPage = () => {
                     <Button size="sm" colorScheme="blue" variant="outline">
                       Edit
                     </Button>
-                    <Button size="sm" colorScheme="red" variant="outline">
+                    <Button
+                      size="sm"
+                      colorScheme="red"
+                      variant="outline"
+                      onClick={() => handleDeleteRoom(room.room_name)}
+                    >
                       Delete
                     </Button>
                   </HStack>
@@ -116,14 +129,12 @@ const ViewRoomsPage = () => {
                     </List>
                   </>
                 ) : (
-                  <>
-                    <Flex justify="space-between" align="center" mb="2">
-                      <Text>No tasks assigned.</Text>
-                      <Button size="sm" colorScheme="green" variant="outline">
-                        Add
-                      </Button>
-                    </Flex>
-                  </>
+                  <Flex justify="space-between" align="center" mb="2">
+                    <Text>No tasks assigned.</Text>
+                    <Button size="sm" colorScheme="green" variant="outline">
+                      Add
+                    </Button>
+                  </Flex>
                 )}
               </CardBody>
             </Card>
