@@ -54,7 +54,7 @@ const ViewRoomsPage = () => {
     // Check if the name is empty or contains only spaces
     if (!newName.trim()) {
       alert('Room name cannot be empty or just spaces.');
-      return; // Do not proceed with the save if the name is invalid
+      return;
     }
 
     try {
@@ -66,9 +66,6 @@ const ViewRoomsPage = () => {
       setEditingRoom(null);
       fetchRooms();
     } catch (err) {
-      // Assuming the backend returns a meaningful error message, we'll show it in the alert
-      const errorMessage = err.response?.data?.detail || 'Invalid room name!';
-      alert(errorMessage);
       console.error('Update error:', err);
     }
   };
@@ -76,6 +73,15 @@ const ViewRoomsPage = () => {
   return (
     <Box p="2rem">
       <Heading mb="1rem">Your Rooms</Heading>
+      <Text
+  fontSize="md"
+  fontWeight="bold"
+  color="red.600"
+  mb="1.5rem"
+>
+  Capitalized Format Required for Room Name Edits!
+</Text>
+
       <Button colorScheme="teal" mb="2rem" onClick={fetchRooms}>
         Load Rooms
       </Button>
