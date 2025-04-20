@@ -1,141 +1,146 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css_files/add_rooms.css'
+import {
+  Box, Button, Card, CardHeader, CardBody, Heading, Text, Input,
+  Image, SimpleGrid, Flex, HStack, Select, VStack, FormControl, FormLabel, useToast
+} from '@chakra-ui/react';
 
-// BASE URLS
 const BASE_URL = 'http://127.0.0.1:8000/';
-const BASE_ROOMS_URL = `${BASE_URL}api/rooms/roomname/`;
+const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
+const BASE_ROOM_NAME_URL = `${BASE_ROOMS_URL}roomname/`;
 
-// Predefined Room options for drop-down menu
 const predefinedRoomNames = ['Bathroom', 'Bedroom', 'Garage', 'Kitchen', 'Laundry Room', 'Office'];
 
 const AddRoomsPage = () => {
-  // define local states
   const [roomName, setRoomName] = useState('');
   const [selectedDropdown, setSelectedDropdown] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [editingRoom, setEditingRoom] = useState(null);
+  const [newName, setNewName] = useState('');
+  const toast = useToast();
 
-  // handles text-input when drop-down menu isn't utilized
-  const handleRoomNameChange = (e) => {
+  // Fetch rooms from the API
+  const fetchRooms = async () => {
+    try {
+      const res = await axios.get(BASE_ROOMS_URL, { withCredentials: true });
+      setRooms(res.data);
+    } catch (err) {
+      console.error('Error fetching rooms:', err);
+    }
+  };
+
+  // Fetch rooms on component mount
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const handleAddRoom = async (e) => {
+    e.preventDefault();
+    const roomData = { room_name: roomName, image_url: imageUrl.trim() || undefined };
+    try {
+      await axios.post(`${BASE_ROOM_NAME_URL}${roomName}/`, roomData, { withCredentials: true });
+      toast({ title: 'Room created successfully!', status: 'success', duration: 2000, isClosable: true });
+      setRoomName(''); setSelectedDropdown(''); setImageUrl('');
+      fetchRooms();
+    } catch (error) {
+      console.error(error)
+      toast({ title: 'Failed to create room.', status: 'error', duration: 2000, isClosable: true });
+    }
+  };
+
+  const handleDelete = async (name) => {
+    try {
+      await axios.delete(`${BASE_ROOM_NAME_URL}${name}/`, { withCredentials: true });
+      fetchRooms();
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
+
+  const handleSave = async (originalName) => {
+    if (!newName.trim()) return alert('Room name cannot be empty.');
+    try {
+      await axios.put(`${BASE_ROOM_NAME_URL}${originalName}/`, { room_name: newName }, { withCredentials: true });
+      setEditingRoom(null);
+      fetchRooms();
+    } catch (err) {
+      console.error('Update error:', err);
+    }
+  };
+
+  const handleDropdownChange = (e) => {
+    setSelectedDropdown(e.target.value);
     setRoomName(e.target.value);
   };
 
-  // handles dropdown selection and sets room name accordingly
-  const handleDropdownChange = (e) => {
-    const value = e.target.value;
-    setSelectedDropdown(value);
-    setRoomName(value);
-  };
-
-  // handles changes to image url input
-  const handleImageUrlChange = (e) => {
-    setImageUrl(e.target.value);
-  };
-
-  // handles form submission and backend request to create new room
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // construct room data to send
-    const roomData = {
-      room_name: roomName,
-    };
-
-    // only include image URL if user actually enters one
-    if (imageUrl.trim()) {
-      roomData.image_url = imageUrl;
-    }
-
-    // send post request to create room, including credentials
-    try {
-      const response = await axios.post(`${BASE_ROOMS_URL}${roomName}/`, roomData, {
-        withCredentials: true,
-      });
-
-      console.log('Room created successfully:', response.data);
-      // show success message
-      setMessage('Room created successfully!');
-      setIsError(false);
-
-      // Reset form values
-      setRoomName('');
-      setSelectedDropdown('');
-      setImageUrl('');
-
-      // Clear the message after 1.5 seconds
-      setTimeout(() => {
-        setMessage('');
-      }, 1500);
-    } catch (error) {
-      // handle error and show message
-      console.error('Error creating room:', error.response ? error.response.data : error.message);
-      
-      setMessage('Failed to create room. Please try again.');
-      setIsError(true);
-
-      // Clear the message after 1.5 seconds
-      setTimeout(() => {
-        setMessage('');
-      }, 1500);
-    }
-  };
-
   return (
-    <div className="rooms-wrapper">
-      <div className="rooms-container">
-        <h2 className="rooms-title">Add New Room</h2>
-        <form onSubmit={handleSubmit} className="rooms-form">
-          <div>
-            <label htmlFor="room_select">Choose a Room Name:</label>
-            <select
-              id="room_select"
-              value={selectedDropdown}
-              onChange={handleDropdownChange}
-            >
-              <option value="">Custom</option>
-              {predefinedRoomNames.map((name, index) => (
-                <option key={index} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
+    <Box p="2rem">
+      <Heading mb="1rem">Room Manager</Heading>
 
-          <div>
-            <label htmlFor="room_name">Room Name (Capitalized Format Required):</label>
-            <input
-              type="text"
-              id="room_name"
-              value={roomName}
-              onChange={handleRoomNameChange}
-              maxLength={20}
-              required
-              disabled={selectedDropdown !== ''}
-            />
-          </div>
+      <Box mb="3rem">
+        <Heading size="md" mb="1rem">Add New Room</Heading>
+        <form onSubmit={handleAddRoom}>
+          <VStack spacing="1rem" align="start">
+            <FormControl>
+              <FormLabel>Choose a Room Name:</FormLabel>
+              <Select value={selectedDropdown} onChange={handleDropdownChange} placeholder="Custom">
+                {predefinedRoomNames.map((name, index) => (
+                  <option key={index} value={name}>{name}</option>
+                ))}
+              </Select>
+            </FormControl>
 
-          <div>
-            <label htmlFor="image_url">Room Image URL (Optional):</label>
-            <input
-              type="url"
-              id="image_url"
-              value={imageUrl}
-              onChange={handleImageUrlChange}
-            />
-          </div>
+            <FormControl isRequired>
+              <FormLabel>Room Name:</FormLabel>
+              <Input value={roomName} onChange={(e) => setRoomName(e.target.value)} maxLength={20} disabled={selectedDropdown !== ''} />
+            </FormControl>
 
-          <button type="submit" className="rooms-button">Create Room</button>
+            <FormControl>
+              <FormLabel>Room Image URL:</FormLabel>
+              <Input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+            </FormControl>
 
-          {message && (
-            <p className={isError ? 'rooms-message error' : 'rooms-message success'}>
-              {message}
-            </p>
-          )}
+            <Button type="submit" colorScheme="teal">Create Room</Button>
+          </VStack>
         </form>
-      </div>
-    </div>
+      </Box>
+
+      <Box>
+        {rooms.length === 0 ? <Text>No rooms currently added.</Text> : (
+          <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
+            {rooms.map((room, index) => (
+              <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
+                <CardHeader>
+                  <Flex justify="space-between" align="center">
+                    {editingRoom === room.room_name ? (
+                      <>
+                        <Input size="sm" value={newName} onChange={(e) => setNewName(e.target.value)} />
+                        <HStack spacing="2">
+                          <Button size="sm" colorScheme="green" onClick={() => handleSave(room.room_name)}>Save</Button>
+                          <Button size="sm" onClick={() => setEditingRoom(null)}>Cancel</Button>
+                        </HStack>
+                      </>
+                    ) : (
+                      <>
+                        <Heading size="md">{room.room_name}</Heading>
+                        <HStack spacing="2">
+                          <Button size="sm" colorScheme="blue" variant="outline" onClick={() => setEditingRoom(room.room_name)}>Edit</Button>
+                          <Button size="sm" colorScheme="red" variant="outline" onClick={() => handleDelete(room.room_name)}>Delete</Button>
+                        </HStack>
+                      </>
+                    )}
+                  </Flex>
+                </CardHeader>
+                <CardBody>
+                  <Image src={room.image_url} alt={`${room.room_name} image`} borderRadius="md" />
+                </CardBody>
+              </Card>
+            ))}
+          </SimpleGrid>
+        )}
+      </Box>
+    </Box>
   );
 };
 
