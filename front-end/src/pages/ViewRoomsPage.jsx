@@ -22,6 +22,7 @@ import {
   Box, Button, Card, CardHeader, CardBody, Heading, Text, Input,
   Image, SimpleGrid, Flex, HStack, List, ListItem, Divider
 } from '@chakra-ui/react';
+import '../css_files/view_rooms.css'  // Import the CSS file
 
 const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
@@ -76,50 +77,48 @@ const ViewRoomsPage = () => {
   };
 
   return (
-    <Box p="2rem">
-      <Heading mb="1rem">Your Rooms</Heading>
-      <Text fontSize="md" fontWeight="bold" color="red.600" mb="1.5rem">
+    <Box className="container">
+      <Heading className="heading">Your Rooms</Heading>
+      <Text className="subheading">
         Capitalized Format Required for Room Name Edits!
       </Text>
 
-      <Button colorScheme="teal" mb="2rem" onClick={fetchRooms}>
+      <Button className="loadRoomsButton" colorScheme="teal" mb="2rem" onClick={fetchRooms}>
         Load Rooms
       </Button>
 
-      {hasLoaded && rooms.length === 0 && <Text>No rooms currently added.</Text>}
+      {hasLoaded && rooms.length === 0 && <Text className="noRoomsText">No rooms currently added.</Text>}
 
       <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
         {rooms.map((room, index) => (
-          <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
-            <CardHeader>
-              <Flex justify="space-between" align="center">
+          <Card key={index} className="roomCard">
+            <CardHeader className="cardHeader">
+              {editingRoom === room.room_name ? (
+                <Input className="editInput" size="sm" value={newName} onChange={(e) => setNewName(e.target.value)} />
+              ) : (
+                <Heading className="cardTitle">{room.room_name}</Heading>
+              )}
+              <HStack className="cardActions" spacing="2">
                 {editingRoom === room.room_name ? (
-                  <Input size="sm" value={newName} onChange={(e) => setNewName(e.target.value)} />
+                  <>
+                    <Button className="saveButton" size="sm" onClick={() => handleSave(room.room_name)}>
+                      Save
+                    </Button>
+                    <Button className="cancelButton" size="sm" onClick={() => setEditingRoom(null)}>
+                      Cancel
+                    </Button>
+                  </>
                 ) : (
-                  <Heading size="md">{room.room_name}</Heading>
+                  <>
+                    <Button className="editButton" size="sm" colorScheme="blue" variant="outline" onClick={() => handleEdit(room.room_name)}>
+                      Edit
+                    </Button>
+                    <Button className="deleteButton" size="sm" colorScheme="red" variant="outline" onClick={() => handleDelete(room.room_name)}>
+                      Delete
+                    </Button>
+                  </>
                 )}
-                <HStack spacing="2">
-                  {editingRoom === room.room_name ? (
-                    <>
-                      <Button size="sm" colorScheme="green" onClick={() => handleSave(room.room_name)}>
-                        Save
-                      </Button>
-                      <Button size="sm" onClick={() => setEditingRoom(null)}>
-                        Cancel
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button size="sm" colorScheme="blue" variant="outline" onClick={() => handleEdit(room.room_name)}>
-                        Edit
-                      </Button>
-                      <Button size="sm" colorScheme="red" variant="outline" onClick={() => handleDelete(room.room_name)}>
-                        Delete
-                      </Button>
-                    </>
-                  )}
-                </HStack>
-              </Flex>
+              </HStack>
             </CardHeader>
 
             <CardBody>
@@ -128,36 +127,36 @@ const ViewRoomsPage = () => {
                 <>
                   <Flex justify="space-between" align="center" mb="2">
                     <Text fontWeight="bold">Tasks:</Text>
-                    <Button size="sm" colorScheme="green" variant="outline">
+                    <Button className="addTaskButton" size="sm" colorScheme="green" variant="outline">
                       Add
                     </Button>
                   </Flex>
-                  <List spacing={2}>
+                  <List className="taskList" spacing={2}>
                     {room.room_tasks.map((task, i) => (
                       <ListItem key={i}>
-                        <Flex justify="space-between" align="center">
-                          <Text>
-                            <strong>{task.description}</strong><br />
+                        <Flex className="taskItem" justify="space-between" align="center">
+                          <Text className="taskInfo">
+                            <span className="taskDescription">{task.description}</span><br />
                             <span>{task.day_of_week} at {task.time_of_day}</span>
                           </Text>
                           <HStack spacing="2">
-                            <Button size="xs" colorScheme="blue" variant="outline">
+                            <Button className="editButton" size="xs" colorScheme="blue" variant="outline">
                               Edit
                             </Button>
-                            <Button size="xs" colorScheme="red" variant="outline">
+                            <Button className="deleteButton" size="xs" colorScheme="red" variant="outline">
                               Delete
                             </Button>
                           </HStack>
                         </Flex>
-                        {i < room.room_tasks.length - 1 && <Divider my="2" />}
+                        {i < room.room_tasks.length - 1 && <Divider className="divider" />}
                       </ListItem>
                     ))}
                   </List>
                 </>
               ) : (
                 <Flex justify="space-between" align="center" mb="2">
-                  <Text>No tasks assigned.</Text>
-                  <Button size="sm" colorScheme="green" variant="outline">
+                  <Text className="noTasksText">No tasks assigned.</Text>
+                  <Button className="addTaskButton" size="sm" colorScheme="green" variant="outline">
                     Add
                   </Button>
                 </Flex>
