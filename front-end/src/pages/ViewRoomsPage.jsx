@@ -7,23 +7,11 @@
 // path('day/<str:day>/', Tasks_by_day.as_view(), name='tasks_by_day'),
 // path('room_id/<int:room_id>/', CR_all_room_tasks.as_view(), name='cr_all_room_tasks'),
 // path('room_id/<int:room_id>/task_id/<int:task_id>/', RUD_room_tasks.as_view(), name='ud_room_tasks')
-import { useState, } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import {
-  Box,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  Heading,
-  Text,
-  Image,
-  SimpleGrid,
-  List,
-  ListItem,
-  Divider,
-  Flex,
-  HStack,
+  Box, Button, Card, CardHeader, CardBody, Heading, Text, Input,
+  Image, SimpleGrid, Flex, HStack, List, ListItem, Divider
 } from '@chakra-ui/react';
 
 const BASE_URL = 'http://127.0.0.1:8000/';
@@ -32,28 +20,47 @@ const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
 const ViewRoomsPage = () => {
   const [rooms, setRooms] = useState([]);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [editingRoom, setEditingRoom] = useState(null);
+  const [newName, setNewName] = useState('');
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get(BASE_ROOMS_URL, {
-        withCredentials: true,
-      });
-      setRooms(response.data);
+      const res = await axios.get(BASE_ROOMS_URL, { withCredentials: true });
+      setRooms(res.data);
       setHasLoaded(true);
-    } catch (error) {
-      console.error('Error fetching rooms:', error);
+    } catch (err) {
+      console.error('Error fetching rooms:', err);
       setHasLoaded(true);
     }
   };
 
-  const handleDeleteRoom = async (roomName) => {
+  const handleDelete = async (name) => {
     try {
-      await axios.delete(`${BASE_ROOMS_URL}roomname/${roomName}/`, {
+      await axios.delete(`${BASE_ROOMS_URL}roomname/${name}/`, {
         withCredentials: true,
       });
-      fetchRooms(); // Refresh rooms after delete
-    } catch (error) {
-      console.error('Error deleting room:', error);
+      fetchRooms();
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
+
+  const handleEdit = (name) => {
+    setEditingRoom(name);
+    setNewName(name);
+  };
+
+  const handleSave = async (originalName) => {
+    try {
+      await axios.put(
+        `${BASE_ROOMS_URL}roomname/${originalName}/`,
+        { room_name: newName },
+        { withCredentials: true }
+      );
+      setEditingRoom(null);
+      fetchRooms();
+    } catch (err) {
+      console.error('Update error:', err);
     }
   };
 
@@ -64,9 +71,7 @@ const ViewRoomsPage = () => {
         Load Rooms
       </Button>
 
-      {hasLoaded && rooms.length === 0 && (
-        <Text>No rooms currently added.</Text>
-      )}
+      {hasLoaded && rooms.length === 0 && <Text>No rooms currently added.</Text>}
 
       {rooms.length > 0 && (
         <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
@@ -74,19 +79,49 @@ const ViewRoomsPage = () => {
             <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
               <CardHeader>
                 <Flex justify="space-between" align="center">
-                  <Heading size="md">{room.room_name}</Heading>
-                  <HStack spacing="2">
-                    <Button size="sm" colorScheme="blue" variant="outline">
-                      Edit
-                    </Button>
-                    <Button
+                  {editingRoom === room.room_name ? (
+                    <Input
                       size="sm"
-                      colorScheme="red"
-                      variant="outline"
-                      onClick={() => handleDeleteRoom(room.room_name)}
-                    >
-                      Delete
-                    </Button>
+                      value={newName}
+                      onChange={(e) => setNewName(e.target.value)}
+                    />
+                  ) : (
+                    <Heading size="md">{room.room_name}</Heading>
+                  )}
+                  <HStack spacing="2">
+                    {editingRoom === room.room_name ? (
+                      <>
+                        <Button
+                          size="sm"
+                          colorScheme="green"
+                          onClick={() => handleSave(room.room_name)}
+                        >
+                          Save
+                        </Button>
+                        <Button size="sm" onClick={() => setEditingRoom(null)}>
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          size="sm"
+                          colorScheme="blue"
+                          variant="outline"
+                          onClick={() => handleEdit(room.room_name)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          colorScheme="red"
+                          variant="outline"
+                          onClick={() => handleDelete(room.room_name)}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    )}
                   </HStack>
                 </Flex>
               </CardHeader>
