@@ -79,7 +79,12 @@ const ViewRoomsPage = () => {
               />
               {room.room_tasks.length > 0 ? (
                 <>
-                  <Text fontWeight="bold" mb="2">Tasks:</Text>
+                  <Flex justify="space-between" align="center" mb="2">
+                    <Text fontWeight="bold">Tasks:</Text>
+                    <Button size="sm" colorScheme="green" variant="outline">
+                      Add
+                    </Button>
+                  </Flex>
                   <List spacing={2}>
                     {room.room_tasks.map((task, i) => (
                       <ListItem key={i}>
@@ -93,12 +98,19 @@ const ViewRoomsPage = () => {
                   </List>
                 </>
               ) : (
-                <Text>No tasks assigned.</Text>
+                <>
+                  <Flex justify="space-between" align="center" mb="2">
+                    <Text>No tasks assigned.</Text>
+                    <Button size="sm" colorScheme="green" variant="outline">
+                      Add
+                    </Button>
+                  </Flex>
+                </>
               )}
             </CardBody>
 
             <CardFooter>
-              {/* <Button colorScheme="teal">Book Now</Button> */}
+              <Button colorScheme="teal">Book Now</Button>
             </CardFooter>
           </Card>
         ))}
