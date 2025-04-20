@@ -15,11 +15,9 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Heading,
   Text,
   Image,
-  VStack,
   SimpleGrid,
   List,
   ListItem,
@@ -33,6 +31,7 @@ const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`; // Ensure BASE_URL is defined
 
 const ViewRoomsPage = () => {
   const [rooms, setRooms] = useState([]);
+  const [hasLoaded, setHasLoaded] = useState(false);  // State to track if the button has been clicked
 
   const handleFetchRooms = async () => {
     try {
@@ -41,8 +40,10 @@ const ViewRoomsPage = () => {
       });
       console.log('Fetched Rooms:', response.data);
       setRooms(response.data);
+      setHasLoaded(true);  // Set to true after rooms are fetched
     } catch (error) {
       console.error('Error fetching rooms:', error);
+      setHasLoaded(true);  // Set to true to display the message even in case of an error
     }
   };
 
@@ -53,68 +54,82 @@ const ViewRoomsPage = () => {
         Load Rooms
       </Button>
 
-      <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
-        {rooms.map((room, index) => (
-          <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
-            <CardHeader>
-              <Flex justify="space-between" align="center">
-                <Heading size="md">{room.room_name}</Heading>
-                <HStack spacing="2">
-                  <Button size="sm" colorScheme="blue" variant="outline">
-                    Edit
-                  </Button>
-                  <Button size="sm" colorScheme="red" variant="outline">
-                    Delete
-                  </Button>
-                </HStack>
-              </Flex>
-            </CardHeader>
+      {/* Show message only after clicking the "Load Rooms" button */}
+      {hasLoaded && rooms.length === 0 && (
+        <Text>No rooms currently added.</Text>
+      )}
 
-            <CardBody>
-              <Image
-                src={room.image_url}
-                alt={`${room.room_name} image`}
-                borderRadius="md"
-                mb="3"
-              />
-              {room.room_tasks.length > 0 ? (
-                <>
-                  <Flex justify="space-between" align="center" mb="2">
-                    <Text fontWeight="bold">Tasks:</Text>
-                    <Button size="sm" colorScheme="green" variant="outline">
-                      Add
+      {/* Render rooms if available */}
+      {rooms.length > 0 && (
+        <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
+          {rooms.map((room, index) => (
+            <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
+              <CardHeader>
+                <Flex justify="space-between" align="center">
+                  <Heading size="md">{room.room_name}</Heading>
+                  <HStack spacing="2">
+                    <Button size="sm" colorScheme="blue" variant="outline">
+                      Edit
                     </Button>
-                  </Flex>
-                  <List spacing={2}>
-                    {room.room_tasks.map((task, i) => (
-                      <ListItem key={i}>
-                        <Text>
-                          <strong>{task.description}</strong><br />
-                          <span>{task.day_of_week} at {task.time_of_day}</span>
-                        </Text>
-                        {i < room.room_tasks.length - 1 && <Divider my="2" />}
-                      </ListItem>
-                    ))}
-                  </List>
-                </>
-              ) : (
-                <>
-                  <Flex justify="space-between" align="center" mb="2">
-                    <Text>No tasks assigned.</Text>
-                    <Button size="sm" colorScheme="green" variant="outline">
-                      Add
+                    <Button size="sm" colorScheme="red" variant="outline">
+                      Delete
                     </Button>
-                  </Flex>
-                </>
-              )}
-            </CardBody>
+                  </HStack>
+                </Flex>
+              </CardHeader>
 
-            <CardFooter>
-              <Button colorScheme="teal">Book Now</Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </SimpleGrid>
+              <CardBody>
+                <Image
+                  src={room.image_url}
+                  alt={`${room.room_name} image`}
+                  borderRadius="md"
+                  mb="3"
+                />
+                {room.room_tasks.length > 0 ? (
+                  <>
+                    <Flex justify="space-between" align="center" mb="2">
+                      <Text fontWeight="bold">Tasks:</Text>
+                      <Button size="sm" colorScheme="green" variant="outline">
+                        Add
+                      </Button>
+                    </Flex>
+                    <List spacing={2}>
+                      {room.room_tasks.map((task, i) => (
+                        <ListItem key={i}>
+                          <Flex justify="space-between" align="center">
+                            <Text>
+                              <strong>{task.description}</strong><br />
+                              <span>{task.day_of_week} at {task.time_of_day}</span>
+                            </Text>
+                            <HStack spacing="2">
+                              <Button size="xs" colorScheme="blue" variant="outline">
+                                Edit
+                              </Button>
+                              <Button size="xs" colorScheme="red" variant="outline">
+                                Delete
+                              </Button>
+                            </HStack>
+                          </Flex>
+                          {i < room.room_tasks.length - 1 && <Divider my="2" />}
+                        </ListItem>
+                      ))}
+                    </List>
+                  </>
+                ) : (
+                  <>
+                    <Flex justify="space-between" align="center" mb="2">
+                      <Text>No tasks assigned.</Text>
+                      <Button size="sm" colorScheme="green" variant="outline">
+                        Add
+                      </Button>
+                    </Flex>
+                  </>
+                )}
+              </CardBody>
+            </Card>
+          ))}
+        </SimpleGrid>
+      )}
     </Box>
   );
 };
