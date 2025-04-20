@@ -3,7 +3,7 @@ import App from "./App"
 import HomePage from './auth_pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import AddRoomsPage from './pages/AddRoomsPage'
-import ViewRoomsPage from './pages/ViewRoomsPage'
+import AddTasksPage from './pages/AddTasksPage'
 import SchedulePage from './pages/SchedulePage'
 import WeatherPage from './pages/WeatherPage'
 import MenuPage from './auth_pages/MenuPage'
@@ -43,8 +43,8 @@ const router = createBrowserRouter([
             element: <AddRoomsPage/>
           },
           {
-            path: "viewrooms/",
-            element: <ViewRoomsPage/>
+            path: "addtasks/",
+            element: <AddTasksPage/>
           },
           {
             path: "schedule/",

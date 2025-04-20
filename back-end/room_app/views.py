@@ -21,15 +21,6 @@ def All_rooms(request):
     rooms_serializer = RoomSerializer(rooms, many=True)
     return Response(rooms_serializer.data)
 
-# class All_rooms(APIView):
-
-#     def get(self, request):
-#         # filter rooms by currently logged in user
-#         rooms = Room.objects.filter(user=request.user)
-#         # serialize and return JSON response
-#         rooms_ser =  RoomSerializer(rooms, many=True)
-#         return Response(rooms_ser.data)
-    
 
 # views to handle CRUD for a single room
 class A_room(APIView):

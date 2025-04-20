@@ -4,12 +4,14 @@ import {
   Box, Button, Card, CardHeader, CardBody, Heading, Text, Input,
   Image, SimpleGrid, Flex, HStack, Select, VStack, FormControl, FormLabel, useToast
 } from '@chakra-ui/react';
-import '../css_files/add_rooms.css'; // Import the CSS file
+import '../css_files/add_rooms.css'; 
 
+// API URLS
 const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
 const BASE_ROOM_NAME_URL = `${BASE_ROOMS_URL}roomname/`;
 
+// Predefined list of roomnames for dropdown meu
 const predefinedRoomNames = ['Bathroom', 'Bedroom', 'Garage', 'Kitchen', 'Laundry Room', 'Office'];
 
 const AddRoomsPage = () => {
@@ -36,6 +38,7 @@ const AddRoomsPage = () => {
     fetchRooms();
   }, []);
 
+  // function to add a room by utilizing backend POST request
   const handleAddRoom = async (e) => {
     e.preventDefault();
     const roomData = { room_name: roomName, image_url: imageUrl.trim() || undefined };
@@ -50,6 +53,7 @@ const AddRoomsPage = () => {
     }
   };
 
+  // function to delete a room by utilizing backend DELETE request
   const handleDelete = async (name) => {
     try {
       await axios.delete(`${BASE_ROOM_NAME_URL}${name}/`, { withCredentials: true });
@@ -59,6 +63,7 @@ const AddRoomsPage = () => {
     }
   };
 
+  // function to edit a room by utilizing backend PUT request
   const handleSave = async (originalName) => {
     if (!newName.trim()) return alert('Room name cannot be empty.');
     try {
@@ -70,13 +75,14 @@ const AddRoomsPage = () => {
     }
   };
 
+  // function to handle dropdown change
   const handleDropdownChange = (e) => {
     setSelectedDropdown(e.target.value);
     setRoomName(e.target.value);
   };
 
   return (
-    <Box p="2rem">
+    <Box p="2rem" bg="#f4f4f9"> {/* Added background color for the page */}
       <Heading className="centered-heading" mb="1rem">Room Manager</Heading>
 
       <Box mb="3rem">
@@ -111,7 +117,7 @@ const AddRoomsPage = () => {
         {rooms.length === 0 ? <Text>No rooms currently added.</Text> : (
           <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
             {rooms.map((room, index) => (
-              <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4">
+              <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4" bg="#f9f9f9"> {/* Added background color to card */}
                 <CardHeader>
                   <Flex justify="space-between" align="center">
                     {editingRoom === room.room_name ? (
@@ -145,4 +151,4 @@ const AddRoomsPage = () => {
   );
 };
 
-export default AddRoomsPage;
+export default AddRoomsPage; 
