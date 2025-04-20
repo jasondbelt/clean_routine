@@ -153,7 +153,7 @@ const AddTasksPage = () => {
 
       <div className="task-list">
         <h3>Existing Tasks</h3>
-        <ul>
+        <ol>
           {tasks.map((task) => (
             <li key={task.id}>
               <span className="description">{task.description}</span>
@@ -162,7 +162,7 @@ const AddTasksPage = () => {
               </span>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </div>
   );
