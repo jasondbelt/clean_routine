@@ -109,7 +109,7 @@ react-router-dom@^7.5.0
 
 ## 🔧 Core Components
 
-- **NavBar** – Dynamically updates links based on login status  
+- **NavBar** – Dynamically updates links based on user authentication status  
 - **Protected Routes** – For unauthenticated users, pages requiring user authentication are automatically redirected to login page  
 
 ---
