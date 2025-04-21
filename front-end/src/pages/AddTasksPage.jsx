@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useToast } from '@chakra-ui/react';
 import '../css_files/add_tasks.css';
@@ -10,9 +10,12 @@ const AddTasksPage = () => {
   const [description, setDescription] = useState('');
   const [dayOfWeek, setDayOfWeek] = useState('Monday');
   const [timeOfDay, setTimeOfDay] = useState('');
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editValues, setEditValues] = useState({});
   const toast = useToast();
 
-  const fetchRoomsAndTasks = async () => {
+  // Memoize fetchRoomsAndTasks function
+  const fetchRoomsAndTasks = useCallback(async () => {
     try {
       const [roomsRes, tasksRes] = await Promise.all([
         axios.get('http://127.0.0.1:8000/api/rooms/', { withCredentials: true }),
@@ -38,15 +41,12 @@ const AddTasksPage = () => {
       });
       console.error(err);
     }
-  };
+  }, [toast]);
 
+  // useEffect to fetch rooms and tasks on component mount
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchRoomsAndTasks();
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    fetchRoomsAndTasks();
+  }, [fetchRoomsAndTasks]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ const AddTasksPage = () => {
           isClosable: true,
         });
 
-        await fetchRoomsAndTasks();
+        fetchRoomsAndTasks();
         setDescription('');
         setDayOfWeek('Monday');
         setTimeOfDay('');
@@ -90,22 +90,49 @@ const AddTasksPage = () => {
 
   const deleteTask = async (roomId, taskId) => {
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `http://127.0.0.1:8000/api/tasks/room_id/${roomId}/task_id/${taskId}/`,
         { withCredentials: true }
       );
-
-      if (response.status === 204) {
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-      }
-    } catch (error) {
+      fetchRoomsAndTasks();
+    } catch (err) {
       toast({
         title: 'Error deleting task.',
         status: 'error',
         duration: 2000,
         isClosable: true,
       });
-      console.error('Delete error:', error);
+      console.error(err);
+    }
+  };
+
+  const editTask = async (roomId, taskId) => {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/tasks/room_id/${roomId}/task_id/${taskId}/`,
+        editValues,
+        { withCredentials: true }
+      );
+
+      if (response.status === 201) {
+        toast({
+          title: 'Task updated successfully!',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        });
+        setEditingTaskId(null);
+        setEditValues({});
+        fetchRoomsAndTasks();
+      }
+    } catch (err) {
+      toast({
+        title: 'Error updating task.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      console.error(err);
     }
   };
 
@@ -174,19 +201,82 @@ const AddTasksPage = () => {
           {tasks.map((task) => (
             <li key={task.id} className="task-item">
               <div className="task-info">
-                <span className="description">{task.description}</span>
-                <span className="details">
-                  {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
-                </span>
+                {editingTaskId === task.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editValues.description}
+                      onChange={(e) =>
+                        setEditValues({ ...editValues, description: e.target.value })
+                      }
+                      maxLength="30"
+                    />
+                    <select
+                      value={editValues.day_of_week}
+                      onChange={(e) =>
+                        setEditValues({ ...editValues, day_of_week: e.target.value })
+                      }
+                    >
+                      {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+                        <option key={day} value={day}>
+                          {day}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="time"
+                      value={editValues.time_of_day}
+                      onChange={(e) =>
+                        setEditValues({ ...editValues, time_of_day: e.target.value })
+                      }
+                    />
+                  </>
+                ) : (
+                  <>
+                    <span className="description">{task.description}</span>
+                    <span className="details">
+                      {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
+                    </span>
+                  </>
+                )}
               </div>
+
               <div className="task-actions">
-                <button className="edit-button">Edit</button>
-                <button
-                  className="delete-button"
-                  onClick={() => deleteTask(task.room_id, task.id)}
-                >
-                  Delete
-                </button>
+                {editingTaskId === task.id ? (
+                  <>
+                    <button className="save-button" onClick={() => editTask(task.room_id, task.id)}>
+                      Save
+                    </button>
+                    <button
+                      className="cancel-button"
+                      onClick={() => {
+                        setEditingTaskId(null);
+                        setEditValues({});
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="edit-button"
+                      onClick={() => {
+                        setEditingTaskId(task.id);
+                        setEditValues({
+                          description: task.description,
+                          day_of_week: task.day_of_week,
+                          time_of_day: task.time_of_day,
+                        });
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button className="delete-button" onClick={() => deleteTask(task.room_id, task.id)}>
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </li>
           ))}
