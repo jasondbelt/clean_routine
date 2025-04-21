@@ -1,8 +1,8 @@
-# 🧼 Routine Clean
+# 🧼 Clean Routine
 
-**Routine Clean** is a simple app that offers a stress-free way to keep your home tidy without the overwhelm.
+**Clean Routine** is a simple app that offers a stress-free way to keep your home tidy without the overwhelm.
 
-Most people clean reactively—waiting until messes pile up—making the process exhausting and never-ending. Routine Clean helps you take control with easy daily systems and routines that match your lifestyle, reduce stress, and make your space feel cozy and clean.
+Most people clean reactively—waiting until messes pile up—making the process exhausting and never-ending. Clean Routine helps you take control with easy daily systems and routines that match your lifestyle, reduce stress, and make your space feel cozy and clean.
 
 ---
 
