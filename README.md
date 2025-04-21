@@ -21,6 +21,7 @@ Most people clean reactively—waiting until messes pile up—making the process
 ### Backend
 
 Built with **Django + Django REST Framework**
+Utilizes PostgresQL
 
 #### Dependencies (`requirements.txt`)
 
@@ -93,14 +94,14 @@ react-router-dom@^7.5.0
 ### Public Pages
 
 - **HomePage** – Displays inspirational quotes using the Free Quotes API  
-- **About Page** – Highlights user features  
+- **AboutPage** – Highlights user features  
 - **Login / Registration Pages**  
-- **Error 404 Page**
+- **Error404Page**
 
 ### Protected Pages (require login)
 
-- **AddRoomsPage** – Create, update, delete rooms  
-- **AddTasksPage** – Manage tasks tied to each room  
+- **AddRoomsPage** – Create, view, update, and delete rooms  
+- **AddTasksPage** – Manage tasks tied to each room also utilizes CRUD.  
 - **Schedule Page** – View tasks by day of the week  
 - **Weather Page** – Search and view weather by city using OpenWeatherMap API  
 
@@ -109,7 +110,7 @@ react-router-dom@^7.5.0
 ## 🔧 Core Components
 
 - **NavBar** – Dynamically updates links based on login status  
-- **Protected Routes** – Automatically redirect unauthorized users to login  
+- **Protected Routes** – For unauthenticated users, pages requiring user authentication are automatically redirected to login page  
 
 ---
 
