@@ -1,12 +1,25 @@
 # ROOM_APP.MODEL
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 # validator ensures room names are capitalized
 def validate_capitalized(value):
-    if value != value.capitalize():
-        raise ValidationError('Room name must be capitalized (e.g., "Kitchen").')
+    # Split the value into words and capitalize each one
+    words = value.split()
+    # Check if each word is capitalized correctly
+    for word in words:
+        if word != word.capitalize():
+            raise ValidationError('Each word in the room name must be capitalized (e.g., "Kitchen" or "Living Room").')
+
+# Validator to ensure the URL points to an image
+def validate_image_url(value):
+    # Regular expression to match common image file extensions
+    image_url_pattern = r'http(s)?://.*\.(jpg|jpeg|png|gif|bmp|webp)$'
+    
+    if not re.match(image_url_pattern, value, re.IGNORECASE):
+        raise ValidationError('The URL must point to a valid image file (e.g., .jpg, .jpeg, .png, .gif).')
 
 # Create your models here.
 class Room(models.Model):
@@ -17,7 +30,11 @@ class Room(models.Model):
         validators=[validate_capitalized]
     )
     # optional image field
-    image = models.ImageField(blank=True, null=True)
+    image_url = models.URLField(
+        blank=True,
+        validators=[validate_image_url],
+        default='https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png'
+    )
 
     # prevents user from having duplicate room names
     class Meta:

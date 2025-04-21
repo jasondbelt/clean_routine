@@ -19,10 +19,10 @@ export const login = async (username, password) => {
       { withCredentials: true }
     );
 
-    if (response.data.success) {
-      // ✅ Store a user object or flag in localStorage
-      localStorage.setItem("user", JSON.stringify({ username }));
-    }
+    // if (response.data.success) {
+    //   // ✅ Store a user object or flag in localStorage
+    //   localStorage.setItem("user", JSON.stringify({ username }));
+    // }
 
     return response.data.success;
   } catch (error) {
@@ -54,7 +54,7 @@ export const logout = async () => {
       {},
       { withCredentials: true }
     )
-    localStorage.removeItem("user")
+    // localStorage.removeItem("user")
     return true
   } catch (error) {
     console.error("Logout failed:", error);

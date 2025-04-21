@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 // imports function to fetch weather data from third party api
 import { get_forecast } from '../endpoints/thirdparty_api';
+import '../css_files/weather.css'
 
 function WeatherPage() {
   // initial states to hold values and error messages

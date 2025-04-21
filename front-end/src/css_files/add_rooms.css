@@ -1,0 +1,30 @@
+.add-room-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-input {
+  margin-bottom: 1rem;
+}
+
+/* Center the headings */
+.centered-heading {
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .add-room-form {
+    max-width: 100%;
+    padding: 1rem;
+  }
+}

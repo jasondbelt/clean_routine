@@ -1,4 +1,6 @@
 #ROOM_APP.VIEWS
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,15 +14,13 @@ from rest_framework.status import (
 )
 
 # view all rooms belonging to authenticated user
-class All_rooms(APIView):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def All_rooms(request):
+    rooms = Room.objects.filter(user=request.user).order_by('room_name')
+    rooms_serializer = RoomSerializer(rooms, many=True)
+    return Response(rooms_serializer.data)
 
-    def get(self, request):
-        # filter rooms by currently logged in user
-        rooms = Room.objects.filter(user=request.user)
-        # serialize and return JSON response
-        rooms_ser =  RoomSerializer(rooms, many=True)
-        return Response(rooms_ser.data)
-    
 
 # views to handle CRUD for a single room
 class A_room(APIView):

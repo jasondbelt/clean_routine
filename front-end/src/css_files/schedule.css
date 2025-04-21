@@ -1,0 +1,93 @@
+.schedule-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: 2rem;
+  background-image: url('../assets/schedule.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.schedule-container {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.schedule-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.schedule-button:hover {
+  background-color: #45a049;
+}
+
+.schedule-message {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.schedule-message.success {
+  color: green;
+}
+
+.schedule-message.error {
+  color: red;
+}
+
+.schedule-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.3rem;
+  display: inline-block;
+}
+
+.task-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.task-item {
+  background-color: #f9f9f9;
+  border-left: 4px solid #007bff;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.task-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.task-time,
+.task-desc {
+  margin: 0.2rem 0;
+  color: #333;
+}
