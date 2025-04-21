@@ -1,26 +1,30 @@
 .schedule-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center; /* Center both form and task list horizontally */
+  justify-content: flex-start; /* Align content at the top */
   min-height: 100vh;
-  padding-top: 2rem;
-  background-image: url('../assets/schedule.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  padding: 2rem 0; /* Padding to prevent content sticking to the top or bottom */
+  background-color: #f0f0f0; /* Light background color for the whole page */
 }
 
 .schedule-container {
-  background: rgba(255, 255, 255, 0.8);
+  background-color: #ffffff; /* Solid white background for the container */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Adding box-shadow */
+  max-width: 800px;
+  width: 90%;
+  margin-bottom: 0; /* Removed the margin between form and task list */
+  border-left: 4px solid #007bff;
+  border-right: 4px solid #007bff;
+  position: relative; /* Keeps the container fixed in place */
 }
 
 .schedule-title {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem; /* Reduced margin */
 }
 
 .schedule-form {
@@ -42,23 +46,10 @@
   background-color: #45a049;
 }
 
-.schedule-message {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.schedule-message.success {
-  color: green;
-}
-
-.schedule-message.error {
-  color: red;
-}
-
 .schedule-subtitle {
   font-size: 1.5rem;
   font-weight: 600;
-  margin: 1.5rem 0 1rem;
+  margin: 1rem 0;
   color: #333;
   border-bottom: 2px solid #007bff;
   padding-bottom: 0.3rem;
@@ -68,14 +59,16 @@
 .task-list {
   list-style-type: none;
   padding: 0;
-  margin-top: 1rem;
+  margin-top: 0; /* Removed margin between form and task list */
+  width: 100%;
+  overflow-y: auto; /* Ensures content doesn't overflow */
 }
 
 .task-item {
   background-color: #f9f9f9;
   border-left: 4px solid #007bff;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  margin-bottom: 0.5rem; /* Reduced bottom margin */
+  padding: 15px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -87,7 +80,14 @@
 }
 
 .task-time,
+.task-room,
 .task-desc {
   margin: 0.2rem 0;
   color: #333;
+}
+
+.no-tasks-message {
+  margin-top: 1rem;
+  color: #666;
+  font-style: italic;
 }

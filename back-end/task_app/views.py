@@ -14,6 +14,7 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST
 )
 
+# utilized o Schedule Page for getting tasks by day
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def Tasks_by_day(request, day):
@@ -32,6 +33,7 @@ def day_order():
     output_field=IntegerField()
 )
 
+# retrieves all tasks by user
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def All_tasks(request):
