@@ -160,15 +160,22 @@ const AddTasksPage = () => {
       <div className="task-list">
         <h3>Existing Tasks</h3>
         <ol>
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <span className="description">{task.description}</span>
-              <span className="details">
-                {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
-              </span>
-            </li>
-          ))}
-        </ol>
+  {tasks.map((task) => (
+    <li key={task.id} className="task-item">
+      <div className="task-info">
+        <span className="description">{task.description}</span>
+        <span className="details">
+          {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
+        </span>
+      </div>
+      <div className="task-actions">
+        <button className="edit-button">Edit</button>
+        <button className="delete-button">Delete</button>
+      </div>
+    </li>
+  ))}
+</ol>
+
       </div>
     </div>
   );
