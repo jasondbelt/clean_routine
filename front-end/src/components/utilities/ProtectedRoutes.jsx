@@ -1,11 +1,30 @@
-import { Outlet, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import { is_authenticated } from '../../endpoints/auth_api';
 
-// prevents inauthenticated user from accessing routes that require authentication
+// protects routes from unauthenticated access
 const ProtectedRoutes = () => {
-  // retreive user object from localStorage and parse from JSON
-  const user = JSON.parse(localStorage.getItem("user"))
-  // if user is authenticated, render those child routes, otherwise, redirect to login
-  return user ? <Outlet/> : <Navigate to="/login"/>
-}
+  // `auth` holds authentication status:
+  const [auth, setAuth] = useState(null);
 
-export default ProtectedRoutes
+  // useEffect runs once on mount to check user authentication
+  // utilizes backend call and updates auth state based on response
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await is_authenticated();
+      setAuth(isAuth);
+    };
+
+    checkAuth();
+  }, []);
+
+  // gives backend a chance to respond
+  if (auth === null) {
+    return <div>Loading...</div>;
+  }
+  // If authenticated, render protected routes
+  // If not, redirect user to the login page
+  return auth ? <Outlet /> : <Navigate to="/login" />;
+};
+
+export default ProtectedRoutes;
