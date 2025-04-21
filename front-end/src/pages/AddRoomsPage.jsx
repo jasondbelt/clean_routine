@@ -99,12 +99,12 @@ const AddRoomsPage = () => {
             </FormControl>
 
             <FormControl isRequired className="form-input">
-              <FormLabel className="form-label">Room Name:</FormLabel>
+              <FormLabel className="form-label">Room Name (Needs to be Title-Cased):</FormLabel>
               <Input value={roomName} onChange={(e) => setRoomName(e.target.value)} maxLength={20} disabled={selectedDropdown !== ''} />
             </FormControl>
 
             <FormControl className="form-input">
-              <FormLabel className="form-label">Room Image URL:</FormLabel>
+              <FormLabel className="form-label">Room Image URL (Optional):</FormLabel>
               <Input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
             </FormControl>
 
