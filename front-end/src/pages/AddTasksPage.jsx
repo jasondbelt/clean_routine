@@ -4,7 +4,6 @@ import { useToast } from '@chakra-ui/react';
 import '../css_files/add_tasks.css';
 
 const AddTasksPage = () => {
-  // state variables
   const [rooms, setRooms] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [roomId, setRoomId] = useState('');
@@ -13,15 +12,13 @@ const AddTasksPage = () => {
   const [timeOfDay, setTimeOfDay] = useState('');
   const toast = useToast();
 
-  // Fetch rooms and tasks from backend at the same time
   const fetchRoomsAndTasks = async () => {
     try {
       const [roomsRes, tasksRes] = await Promise.all([
         axios.get('http://127.0.0.1:8000/api/rooms/', { withCredentials: true }),
         axios.get('http://127.0.0.1:8000/api/tasks/', { withCredentials: true }),
       ]);
-      // if successful, update state and set default roomID
-      // as routes need access to it
+
       if (roomsRes.status === 200) {
         setRooms(roomsRes.data);
         if (roomsRes.data.length > 0) {
@@ -43,21 +40,17 @@ const AddTasksPage = () => {
     }
   };
 
-  // run get requests upon initial render
   useEffect(() => {
     const fetchData = async () => {
       await fetchRoomsAndTasks();
     };
-  
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
-  // handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // create task data object to be sent in POST request
     const taskData = {
       description,
       day_of_week: dayOfWeek,
@@ -79,9 +72,7 @@ const AddTasksPage = () => {
           isClosable: true,
         });
 
-        // Fetch updated tasks instead of appending manually
-        fetchRoomsAndTasks();
-
+        await fetchRoomsAndTasks();
         setDescription('');
         setDayOfWeek('Monday');
         setTimeOfDay('');
@@ -97,7 +88,27 @@ const AddTasksPage = () => {
     }
   };
 
-  // function to get the room name by id
+  const deleteTask = async (roomId, taskId) => {
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/api/tasks/room_id/${roomId}/task_id/${taskId}/`,
+        { withCredentials: true }
+      );
+
+      if (response.status === 204) {
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+      }
+    } catch (error) {
+      toast({
+        title: 'Error deleting task.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      console.error('Delete error:', error);
+    }
+  };
+
   const getRoomName = (id) => {
     const room = rooms.find((room) => room.id === id);
     return room ? room.room_name : 'Unknown Room';
@@ -160,22 +171,26 @@ const AddTasksPage = () => {
       <div className="task-list">
         <h3>Existing Tasks</h3>
         <ol>
-  {tasks.map((task) => (
-    <li key={task.id} className="task-item">
-      <div className="task-info">
-        <span className="description">{task.description}</span>
-        <span className="details">
-          {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
-        </span>
-      </div>
-      <div className="task-actions">
-        <button className="edit-button">Edit</button>
-        <button className="delete-button">Delete</button>
-      </div>
-    </li>
-  ))}
-</ol>
-
+          {tasks.map((task) => (
+            <li key={task.id} className="task-item">
+              <div className="task-info">
+                <span className="description">{task.description}</span>
+                <span className="details">
+                  {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
+                </span>
+              </div>
+              <div className="task-actions">
+                <button className="edit-button">Edit</button>
+                <button
+                  className="delete-button"
+                  onClick={() => deleteTask(task.room_id, task.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
