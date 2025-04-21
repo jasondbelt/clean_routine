@@ -95,15 +95,15 @@ react-router-dom@^7.5.0
 
 - **HomePage** – Displays inspirational quotes using the Free Quotes API  
 - **AboutPage** – Highlights user features  
-- **Login / Registration Pages**  
+- **Login / Register Pages**  
 - **Error404Page**
 
 ### Protected Pages (require login)
 
 - **AddRoomsPage** – Create, view, update, and delete rooms  
 - **AddTasksPage** – Manage tasks tied to each room also utilizes CRUD.  
-- **Schedule Page** – View tasks by day of the week  
-- **Weather Page** – Search and view weather by city using OpenWeatherMap API  
+- **SchedulePage** – View tasks by day of the week  
+- **WeatherPage** – Search and view weather by city using OpenWeatherMap API  
 
 ---
 
