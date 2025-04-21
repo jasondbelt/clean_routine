@@ -106,7 +106,7 @@ const AddTasksPage = () => {
   return (
     <div className="task-container">
       <div className="form-wrapper">
-        <h2 className="title">Task Manager</h2>
+        <h2 className="title">Task Manager (All Required)</h2>
         <form onSubmit={handleSubmit} className="task-form">
           <label>
             Room:
