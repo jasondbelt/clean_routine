@@ -21,7 +21,7 @@ Most people clean reactively—waiting until messes pile up—making the process
 ### Backend
 
 Built with **Django + Django REST Framework**
-Utilizes PostgresQL
+and utilizes PostgreSQL
 
 #### Dependencies (`requirements.txt`)
 
