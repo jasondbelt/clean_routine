@@ -1,20 +1,6 @@
 #TASK_APP.SERIALIZERS
 from .models import Task
 from rest_framework import serializers
-
-# # return all tasks
-# class AllTasksSerializer(serializers.ModelSerializer):
-#     # custom field returns room name with method below
-#     room = serializers.SerializerMethodField()
-
-#     class Meta:
-#         model = Task
-#         # fields = ['room', 'description', 'day_of_week', 'time_of_day']
-#         fields = '__all__'
-
-#     # retrieves and returns room name in serializer
-#     def get_room(self, obj):
-#         return obj.room.room_name
     
 # return all tasks by day
 class DayTasksSerializer(serializers.ModelSerializer):
@@ -30,12 +16,9 @@ class DayTasksSerializer(serializers.ModelSerializer):
         return obj.room.room_name
 
 
-# class TaskSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = Task
-#         fields = ['id', 'room', 'description', 'day_of_week', 'time_of_day']
+# returns all task fields for full access
 class TaskSerializer(serializers.ModelSerializer):
+    # redefine new field to have access to roomname
     room_name = serializers.CharField(source='room.room_name', read_only=True)
 
     class Meta:
