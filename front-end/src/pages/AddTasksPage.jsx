@@ -13,7 +13,7 @@ import {
   useToast,
   Heading,
 } from '@chakra-ui/react';
-import './add_tasks.css';
+import '../css_files/add_tasks.css';
 
 const AddTasksPage = () => {
   const [rooms, setRooms] = useState([]);
@@ -222,23 +222,16 @@ const AddTasksPage = () => {
           boxShadow="lg"
           w="full"
           maxW="700px"
+          textAlign="center"
         >
-          <Heading size="md" mb={4} textAlign="center">
+          <Heading size="md" mb={4}>
             Task List
           </Heading>
           <VStack spacing={4} align="center" w="full">
             {tasks.map((task) => (
-              <Box
-                key={task.id}
-                borderBottom="1px solid"
-                borderColor="gray.200"
-                pb={3}
-                w="100%"
-                maxW="500px"
-                mx="auto"
-              >
+              <Box key={task.id} borderBottom="1px solid" borderColor="gray.200" pb={3} w="full">
                 {editingTaskId === task.id ? (
-                  <VStack spacing={2} align="start">
+                  <VStack spacing={2} align="center">
                     <Input
                       value={editValues.description}
                       onChange={(e) =>
@@ -278,7 +271,7 @@ const AddTasksPage = () => {
                     </HStack>
                   </VStack>
                 ) : (
-                  <VStack align="start" spacing={1}>
+                  <VStack align="center" spacing={1}>
                     <Text fontWeight="bold">{task.description}</Text>
                     <Text color="gray.600">
                       {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}

@@ -1,13 +1,13 @@
 /* Container styling */
-/* Optional container tweak */
 .task-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
   font-family: Arial, sans-serif;
   background-color: #f7f9fc;
   min-height: 100vh;
 }
-
-/* Chakra handles layout/styling, but any overrides go here */
-
 
 /* Form styling */
 .form-wrapper {
@@ -70,7 +70,7 @@
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-left: 20px; /* Add breathing room on the left side */
+  text-align: center;
 }
 
 .task-list h3 {
@@ -88,6 +88,7 @@
 .task-list li {
   border-bottom: 1px solid #e2e8f0;
   padding: 0.75rem 0;
+  text-align: center;
 }
 
 .task-list li:last-child {
@@ -97,6 +98,7 @@
 .task-item-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .task-item-info .description {
@@ -112,27 +114,11 @@
 .task-actions {
   display: flex;
   gap: 8px;
+  justify-content: center;
 }
 
 .edit-button,
-.delete-button {
-  padding: 4px 8px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.edit-button {
-  background-color: #f0ad4e;
-  color: white;
-}
-
-.delete-button {
-  background-color: #d9534f;
-  color: white;
-}
-
+.delete-button,
 .save-button,
 .cancel-button {
   padding: 4px 8px;
@@ -140,20 +126,28 @@
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
+  color: white;
+}
+
+.edit-button {
+  background-color: #f0ad4e;
+}
+
+.delete-button {
+  background-color: #d9534f;
 }
 
 .save-button {
   background-color: #3182ce;
-  color: white;
 }
 
 .cancel-button {
   background-color: #e53e3e;
-  color: white;
 }
 
 .save-button:hover,
-.cancel-button:hover {
+.cancel-button:hover,
+.edit-button:hover,
+.delete-button:hover {
   opacity: 0.8;
 }
-
