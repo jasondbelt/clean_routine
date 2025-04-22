@@ -1,16 +1,15 @@
 .schedule-page {
   padding: 2rem;
   background-color: #f4f4f9;
-  background-image: url('../assets/schedule.jpg'); /* Add your image URL here */
-  background-size: cover; /* Ensure the background image covers the entire page */
-  background-position: center center; /* Center the background image */
-  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-image: url('../assets/schedule.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 
 .schedule-form-wrapper {
   width: 100%;
@@ -70,43 +69,40 @@
 
 .task-card {
   background-color: #f9f9f9;
-  padding: 0.8rem 1.5rem; /* Reduced padding to make the card more compact */
+  padding: 0.8rem 1.5rem; 
   border-radius: 12px;
-  margin-bottom: 1rem; /* Reduced bottom margin between cards */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+  margin-bottom: 1rem; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.8rem; /* Reduced gap between items */
+  gap: 0.8rem; 
   flex-wrap: wrap;
   width: 100%;
   max-width: 2400px;
   text-align: center;
   position: relative;
-  min-height: 80px; /* Set a min-height to reduce the height */
+  min-height: 80px; 
 }
 
 .task-info {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 0.9rem; /* Smaller font size for info */
+  font-size: 0.9rem;
   margin-right: 0.5rem;
-  flex-basis: 100%; /* Stacks items vertically */
-  max-width: 250px; /* Restrict width of task info to avoid stretching */
+  flex-basis: 100%;
+  max-width: 250px;
   text-align: center;
 }
 
 .task-title {
   font-weight: bold;
-  font-size: 1.2rem; /* Slightly smaller font size for title */
-  flex-basis: 100%; /* Ensure title stays on its own line */
-  margin-bottom: 0.3rem; /* Smaller margin between title and other info */
+  font-size: 1.2rem; 
+  flex-basis: 100%; 
+  margin-bottom: 0.3rem;
   text-align: center;
 }
-
-
-
 
 .no-tasks-message {
   text-align: center;
