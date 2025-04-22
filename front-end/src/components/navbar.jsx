@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  List,
-  ListItem,
+  Box, Button, Flex, Heading, List, ListItem,
 } from '@chakra-ui/react';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { logout, is_authenticated } from '../endpoints/auth_api';
