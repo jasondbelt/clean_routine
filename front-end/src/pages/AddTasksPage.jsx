@@ -191,7 +191,7 @@ const AddTasksPage = () => {
               <FormControl isRequired>
                 <FormLabel>Day of Week</FormLabel>
                 <Select value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)}>
-                  {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+                  {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
                     <option key={day} value={day}>
                       {day}
                     </option>
