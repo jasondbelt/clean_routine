@@ -65,39 +65,41 @@
 
 .task-card {
   background-color: #f9f9f9;
-  padding: 1rem 2rem;
+  padding: 0.8rem 1.5rem; /* Reduced padding to make the card more compact */
   border-radius: 12px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem; /* Reduced bottom margin between cards */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
   display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem; /* Reduced gap between items */
   flex-wrap: wrap;
   width: 100%;
   max-width: 2400px;
-  text-align: center; /* Center text inside task-card */
+  text-align: center;
   position: relative;
+  min-height: 80px; /* Set a min-height to reduce the height */
 }
 
 .task-info {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Smaller font size for info */
   margin-right: 0.5rem;
-  flex-basis: 100%; /* Allow items to stack on top of each other */
-  max-width: 300px; /* Optional, can be adjusted */
-  text-align: center; /* Center task info */
+  flex-basis: 100%; /* Stacks items vertically */
+  max-width: 250px; /* Restrict width of task info to avoid stretching */
+  text-align: center;
 }
 
 .task-title {
   font-weight: bold;
-  font-size: 1.3rem;
-  flex-basis: 100%; /* Ensure title is on a separate line */
-  margin-bottom: 0.5rem; /* Spacing between title and other info */
-  text-align: center; /* Center task title */
+  font-size: 1.2rem; /* Slightly smaller font size for title */
+  flex-basis: 100%; /* Ensure title stays on its own line */
+  margin-bottom: 0.3rem; /* Smaller margin between title and other info */
+  text-align: center;
 }
+
 
 
 
