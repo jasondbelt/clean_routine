@@ -12,8 +12,8 @@ import {
   HStack,
   useToast,
   Heading,
-  Divider,
 } from '@chakra-ui/react';
+import './add_tasks.css';
 
 const AddTasksPage = () => {
   const [rooms, setRooms] = useState([]);
@@ -226,9 +226,17 @@ const AddTasksPage = () => {
           <Heading size="md" mb={4} textAlign="center">
             Task List
           </Heading>
-          <VStack spacing={4} align="stretch">
+          <VStack spacing={4} align="center" w="full">
             {tasks.map((task) => (
-              <Box key={task.id} borderBottom="1px solid" borderColor="gray.200" pb={3}>
+              <Box
+                key={task.id}
+                borderBottom="1px solid"
+                borderColor="gray.200"
+                pb={3}
+                w="100%"
+                maxW="500px"
+                mx="auto"
+              >
                 {editingTaskId === task.id ? (
                   <VStack spacing={2} align="start">
                     <Input
