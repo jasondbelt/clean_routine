@@ -1,7 +1,19 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import { useToast } from '@chakra-ui/react';
-import '../css_files/add_tasks.css';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Text,
+  VStack,
+  HStack,
+  useToast,
+  Heading,
+  Divider,
+} from '@chakra-ui/react';
 
 const AddTasksPage = () => {
   const [rooms, setRooms] = useState([]);
@@ -14,7 +26,6 @@ const AddTasksPage = () => {
   const [editValues, setEditValues] = useState({});
   const toast = useToast();
 
-  // Memoize fetchRoomsAndTasks function
   const fetchRoomsAndTasks = useCallback(async () => {
     try {
       const [roomsRes, tasksRes] = await Promise.all([
@@ -43,7 +54,6 @@ const AddTasksPage = () => {
     }
   }, [toast]);
 
-  // useEffect to fetch rooms and tasks on component mount
   useEffect(() => {
     fetchRoomsAndTasks();
   }, [fetchRoomsAndTasks]);
@@ -142,76 +152,93 @@ const AddTasksPage = () => {
   };
 
   return (
-    <div className="task-container">
-      <div className="form-wrapper">
-        <h2 className="title">Task Manager (All Required)</h2>
-        <form onSubmit={handleSubmit} className="task-form">
-          <label>
-            Room:
-            <select value={roomId} onChange={(e) => setRoomId(e.target.value)} required>
-              {rooms.map((room) => (
-                <option key={room.id} value={room.id}>
-                  {room.room_name}
-                </option>
-              ))}
-            </select>
-          </label>
+    <Box bg="gray.50" minH="100vh" py={10} px={4}>
+      <VStack spacing={10} align="center">
+        <Box
+          bg="white"
+          p={6}
+          borderRadius="md"
+          boxShadow="lg"
+          w="full"
+          maxW="500px"
+        >
+          <Heading size="lg" textAlign="center" mb={4}>
+            Task Manager (All Required)
+          </Heading>
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4}>
+              <FormControl isRequired>
+                <FormLabel>Room</FormLabel>
+                <Select value={roomId} onChange={(e) => setRoomId(e.target.value)}>
+                  {rooms.map((room) => (
+                    <option key={room.id} value={room.id}>
+                      {room.room_name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
 
-          <label>
-            Description:
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              maxLength="30"
-              required
-            />
-          </label>
+              <FormControl isRequired>
+                <FormLabel>Description</FormLabel>
+                <Input
+                  type="text"
+                  value={description}
+                  maxLength={30}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </FormControl>
 
-          <label>
-            Day of Week:
-            <select value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)}>
-              {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(
-                (day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                )
-              )}
-            </select>
-          </label>
+              <FormControl isRequired>
+                <FormLabel>Day of Week</FormLabel>
+                <Select value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)}>
+                  {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
 
-          <label>
-            Time of Day:
-            <input
-              type="time"
-              value={timeOfDay}
-              onChange={(e) => setTimeOfDay(e.target.value)}
-              required
-            />
-          </label>
+              <FormControl isRequired>
+                <FormLabel>Time of Day</FormLabel>
+                <Input
+                  type="time"
+                  value={timeOfDay}
+                  onChange={(e) => setTimeOfDay(e.target.value)}
+                />
+              </FormControl>
 
-          <button type="submit">Add Task</button>
-        </form>
-      </div>
+              <Button colorScheme="blue" type="submit" w="full">
+                Add Task
+              </Button>
+            </VStack>
+          </form>
+        </Box>
 
-      <div className="task-list">
-        <h3>Task List:</h3>
-        <ol>
-          {tasks.map((task) => (
-            <li key={task.id} className="task-item">
-              <div className="task-info">
+        <Box
+          bg="white"
+          p={6}
+          borderRadius="md"
+          boxShadow="lg"
+          w="full"
+          maxW="700px"
+        >
+          <Heading size="md" mb={4} textAlign="center">
+            Task List
+          </Heading>
+          <VStack spacing={4} align="stretch">
+            {tasks.map((task) => (
+              <Box key={task.id} borderBottom="1px solid" borderColor="gray.200" pb={3}>
                 {editingTaskId === task.id ? (
-                  <>
-                    <input
-                      type="text"
+                  <VStack spacing={2} align="start">
+                    <Input
                       value={editValues.description}
                       onChange={(e) =>
                         setEditValues({ ...editValues, description: e.target.value })
                       }
-                      maxLength="30"
+                      maxLength={30}
                     />
-                    <select
+                    <Select
                       value={editValues.day_of_week}
                       onChange={(e) =>
                         setEditValues({ ...editValues, day_of_week: e.target.value })
@@ -222,67 +249,63 @@ const AddTasksPage = () => {
                           {day}
                         </option>
                       ))}
-                    </select>
-                    <input
+                    </Select>
+                    <Input
                       type="time"
                       value={editValues.time_of_day}
                       onChange={(e) =>
                         setEditValues({ ...editValues, time_of_day: e.target.value })
                       }
                     />
-                  </>
-                ) : (
-                  <>
-                    <span className="description">{task.description}</span>
-                    <span className="details">
-                      {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
-                    </span>
-                  </>
-                )}
-              </div>
-
-              <div className="task-actions">
-                {editingTaskId === task.id ? (
-                  <>
-                    <button className="save-button" onClick={() => editTask(task.room_id, task.id)}>
-                      Save
-                    </button>
-                    <button
-                      className="cancel-button"
-                      onClick={() => {
+                    <HStack spacing={3}>
+                      <Button size="sm" colorScheme="green" onClick={() => editTask(task.room_id, task.id)}>
+                        Save
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => {
                         setEditingTaskId(null);
                         setEditValues({});
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </>
+                      }}>
+                        Cancel
+                      </Button>
+                    </HStack>
+                  </VStack>
                 ) : (
-                  <>
-                    <button
-                      className="edit-button"
-                      onClick={() => {
-                        setEditingTaskId(task.id);
-                        setEditValues({
-                          description: task.description,
-                          day_of_week: task.day_of_week,
-                          time_of_day: task.time_of_day,
-                        });
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button className="delete-button" onClick={() => deleteTask(task.room_id, task.id)}>
-                      Delete
-                    </button>
-                  </>
+                  <VStack align="start" spacing={1}>
+                    <Text fontWeight="bold">{task.description}</Text>
+                    <Text color="gray.600">
+                      {getRoomName(task.room_id)} — {task.day_of_week} at {task.time_of_day}
+                    </Text>
+                    <HStack spacing={3}>
+                      <Button
+                        size="sm"
+                        colorScheme="yellow"
+                        onClick={() => {
+                          setEditingTaskId(task.id);
+                          setEditValues({
+                            description: task.description,
+                            day_of_week: task.day_of_week,
+                            time_of_day: task.time_of_day,
+                          });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        colorScheme="red"
+                        onClick={() => deleteTask(task.room_id, task.id)}
+                      >
+                        Delete
+                      </Button>
+                    </HStack>
+                  </VStack>
                 )}
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
+              </Box>
+            ))}
+          </VStack>
+        </Box>
+      </VStack>
+    </Box>
   );
 };
 

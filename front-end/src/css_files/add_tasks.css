@@ -94,26 +94,19 @@
   border-bottom: none;
 }
 
-.task-list .description {
+.task-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-item-info .description {
   font-weight: 600;
   display: block;
 }
 
-.task-list .details {
+.task-item-info .details {
   font-size: 0.9rem;
   color: #4a5568;
-}
-
-.task-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #ccc;
-}
-
-.task-info {
-  flex: 1;
 }
 
 .task-actions {
@@ -138,5 +131,29 @@
 .delete-button {
   background-color: #d9534f;
   color: white;
+}
+
+.save-button,
+.cancel-button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-button {
+  background-color: #3182ce;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.save-button:hover,
+.cancel-button:hover {
+  opacity: 0.8;
 }
 
