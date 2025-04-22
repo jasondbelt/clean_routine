@@ -11,7 +11,7 @@ def validate_capitalized(value):
     # Check if each word is capitalized correctly
     for word in words:
         if word != word.capitalize():
-            raise ValidationError('Each word in the room name must be capitalized (e.g., "Kitchen" or "Living Room").')
+            raise ValidationError('Each word in the room name must be capitalized')
 
 # Validator to ensure the URL points to an image
 def validate_image_url(value):
@@ -19,7 +19,7 @@ def validate_image_url(value):
     image_url_pattern = r'http(s)?://.*\.(jpg|jpeg|png|gif|bmp|webp)$'
     
     if not re.match(image_url_pattern, value, re.IGNORECASE):
-        raise ValidationError('The URL must point to a valid image file (e.g., .jpg, .jpeg, .png, .gif).')
+        raise ValidationError('The URL must point to a valid image file')
 
 # Create your models here.
 class Room(models.Model):

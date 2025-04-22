@@ -96,7 +96,7 @@ const AddRoomsPage = () => {
               <FormLabel className="form-label">Choose a Room Name:</FormLabel>
               <Select value={selectedDropdown} onChange={handleDropdownChange} placeholder="Custom">
                 {predefinedRoomNames.map((name, index) => (
-                  <option key={index} value={name}>{name}</option>
+                <option key={index} value={name}>{name}</option>
                 ))}
               </Select>
             </FormControl>
@@ -117,38 +117,36 @@ const AddRoomsPage = () => {
       </Box>
 
       <Box>
-        {rooms.length === 0 ? <Text>No rooms currently added.</Text> : (
-          <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
-            {rooms.map((room, index) => (
-              <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4" bg="#f9f9f9"> {/* Added background color to card */}
-                <CardHeader>
-                  <Flex justify="space-between" align="center">
-                    {editingRoom === room.room_name ? (
-                      <>
-                        <Input size="sm" value={newName} onChange={(e) => setNewName(e.target.value)} />
-                        <HStack spacing="2">
-                          <Button size="sm" colorScheme="green" onClick={() => handleSave(room.room_name)}>Save</Button>
-                          <Button size="sm" onClick={() => setEditingRoom(null)}>Cancel</Button>
-                        </HStack>
-                      </>
-                    ) : (
-                      <>
-                        <Heading size="md">{room.room_name}</Heading>
-                        <HStack spacing="2">
-                          <Button size="sm" colorScheme="blue" variant="outline" onClick={() => setEditingRoom(room.room_name)}>Edit</Button>
-                          <Button size="sm" colorScheme="red" variant="outline" onClick={() => handleDelete(room.room_name)}>Delete</Button>
-                        </HStack>
-                      </>
-                    )}
-                  </Flex>
-                </CardHeader>
-                <CardBody>
-                  <Image src={room.image_url} alt={`${room.room_name} image`} borderRadius="md" />
-                </CardBody>
-              </Card>
-            ))}
-          </SimpleGrid>
-        )}
+        <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
+          {rooms.map((room, index) => (
+            <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4" bg="#f9f9f9"> 
+              <CardHeader>
+                <Flex justify="space-between" align="center">
+                  {editingRoom === room.room_name ? (
+                    <>
+                      <Input size="sm" value={newName} onChange={(e) => setNewName(e.target.value)} />
+                      <HStack spacing="2">
+                        <Button size="sm" colorScheme="green" onClick={() => handleSave(room.room_name)}>Save</Button>
+                        <Button size="sm" onClick={() => setEditingRoom(null)}>Cancel</Button>
+                      </HStack>
+                    </>
+                  ) : (
+                    <>
+                      <Heading size="md">{room.room_name}</Heading>
+                      <HStack spacing="2">
+                        <Button size="sm" colorScheme="blue" variant="outline" onClick={() => setEditingRoom(room.room_name)}>Edit</Button>
+                        <Button size="sm" colorScheme="red" variant="outline" onClick={() => handleDelete(room.room_name)}>Delete</Button>
+                      </HStack>
+                    </>
+                  )}
+                </Flex>
+              </CardHeader>
+              <CardBody>
+                <Image src={room.image_url} alt={`${room.room_name} image`} borderRadius="md" />
+              </CardBody>
+            </Card>
+          ))}
+        </SimpleGrid>
       </Box>
     </Box>
   );

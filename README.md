@@ -84,7 +84,7 @@ react-router-dom@^7.5.0
 
 ## 🔗 Third-Party APIs
 
-- **Quotes API** – [https://qapi.vercel.app](https://qapi.vercel.app)  
+- **FreeQuotes API** – [https://qapi.vercel.app](https://qapi.vercel.app)  
 - **OpenWeatherMap API** – [https://openweathermap.org/api](https://openweathermap.org/api)
 
 ---
