@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 import '../css_files/add_rooms.css'; 
 
-// API URLS
+// API Endpoints
 const BASE_URL = 'http://127.0.0.1:8000/';
 const BASE_ROOMS_URL = `${BASE_URL}api/rooms/`;
 const BASE_ROOM_NAME_URL = `${BASE_ROOMS_URL}roomname/`;
@@ -15,12 +15,15 @@ const BASE_ROOM_NAME_URL = `${BASE_ROOMS_URL}roomname/`;
 const predefinedRoomNames = ['Bathroom', 'Bedroom', 'Garage', 'Kitchen', 'Laundry Room', 'Office'];
 
 const AddRoomsPage = () => {
+  // Initial Form States
   const [roomName, setRoomName] = useState('');
   const [selectedDropdown, setSelectedDropdown] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  // Room List and Editing States
   const [rooms, setRooms] = useState([]);
   const [editingRoom, setEditingRoom] = useState(null);
   const [newName, setNewName] = useState('');
+  // used for message notifications
   const toast = useToast();
 
   // Fetch rooms from the API
