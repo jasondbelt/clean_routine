@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {
+  Box, Heading, Text, Button, Select, FormControl, FormLabel,
+  VStack, UnorderedList, ListItem
+} from '@chakra-ui/react';
 import '../css_files/schedule.css';
 
 const SchedulePage = () => {
-  // initial states
   const [selectedDay, setSelectedDay] = useState('Monday');
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
   const [showNoTasks, setShowNoTasks] = useState(false);
 
-  // array of days used to populate dropdown menu
   const daysOfWeek = [
-    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+    'Thursday', 'Friday', 'Saturday'
   ];
 
-  // update the selected day when the user changes the dropdown menu
   const handleDayChange = (e) => {
     setSelectedDay(e.target.value);
   };
 
-  // fetch tasks for selected day using backend API
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,7 +31,6 @@ const SchedulePage = () => {
       setTasks(response.data);
       setError(null);
 
-      // if no tasks, show "no tasks" message briefly
       if (response.data.length === 0) {
         setShowNoTasks(true);
         setTimeout(() => setShowNoTasks(false), 1500);
@@ -46,54 +46,56 @@ const SchedulePage = () => {
   };
 
   return (
-    <div className="schedule-wrapper">
-      <div className="schedule-container">
-        <h2 className="schedule-title">View Daily Schedule</h2>
-        <form onSubmit={handleSubmit} className="schedule-form">
-          <div>
-            <label htmlFor="day_select">Choose a Day:</label>
-            <select
-              id="day_select"
-              value={selectedDay}
-              onChange={handleDayChange}
-            >
-              {daysOfWeek.map((day, index) => (
-                <option key={index} value={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
-          </div>
+    <Box className="schedule-page">
+      <Box className="schedule-form-wrapper">
+        <Heading className="schedule-title">View Daily Schedule</Heading>
+        <form onSubmit={handleSubmit}>
+          <VStack spacing="1rem" align="stretch">
+            <FormControl>
+              <FormLabel className="schedule-label">Choose a Day:</FormLabel>
+              <Select value={selectedDay} onChange={handleDayChange}>
+                {daysOfWeek.map((day, index) => (
+                  <option key={index} value={day}>{day}</option>
+                ))}
+              </Select>
+            </FormControl>
 
-          <button type="submit" className="schedule-button">Get Tasks</button>
+            <Button type="submit" colorScheme="teal" className="schedule-button">
+              Get Tasks
+            </Button>
 
-          {error && <p className="schedule-message error">{error}</p>}
+            {error && (
+              <Text className="error-message">
+                {error}
+              </Text>
+            )}
+          </VStack>
         </form>
-      </div>
+      </Box>
 
-      {/* Task list below the form */}
-      <div className="schedule-tasks">
-        <h3 className="schedule-subtitle">Task List:</h3>
-        {tasks.length > 0 ? (
-          <ul className="task-list">
-            {tasks.map((task, index) => (
-              <li key={index} className="task-item">
-                <h4 className="task-title">{task.title}</h4>
-                <p className="task-time"><strong>Time:</strong> {task.time_of_day}</p>
-                <p className="task-room"><strong>Room:</strong> {task.room}</p>
-                <p className="task-desc"><strong>Item:</strong> {task.description}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          showNoTasks && (
-            <p className="no-tasks-message">
-              You don't have any tasks assigned for {selectedDay}.
-            </p>
-          )
-        )}
-      </div>
-    </div>
+      <Box className="task-list-wrapper">
+  <Heading className="task-list-title">Task List:</Heading>
+  {tasks.length > 0 ? (
+    <UnorderedList className="task-list">
+      {tasks.map((task, index) => (
+        <ListItem key={index} className="task-card">
+          <Text className="task-title">{task.title}</Text>
+          <span className="task-info"><strong>Time:</strong> {task.time_of_day}</span>
+          <span className="task-info"><strong>Room:</strong> {task.room}</span>
+          <span className="task-info"><strong>Item:</strong> {task.description}</span>
+        </ListItem>
+      ))}
+    </UnorderedList>
+  ) : (
+    showNoTasks && (
+      <Text className="no-tasks-message">
+        You don't have any tasks assigned for {selectedDay}.
+      </Text>
+    )
+  )}
+</Box>
+
+    </Box>
   );
 };
 
