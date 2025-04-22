@@ -7,40 +7,50 @@ import {
 import '../css_files/schedule.css';
 
 const SchedulePage = () => {
-  const [selectedDay, setSelectedDay] = useState('Monday');
+  const [selectedDay, setSelectedDay] = useState('Sunday');
   const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState(null);
-  const [showNoTasks, setShowNoTasks] = useState(false);
+  const [error, setError] = useState(null); 
+  const [showNoTasks, setShowNoTasks] = useState(false); 
 
+  // Array representing all days of the week for the dropdown menu
   const daysOfWeek = [
     'Sunday', 'Monday', 'Tuesday', 'Wednesday',
     'Thursday', 'Friday', 'Saturday'
   ];
 
+  // Function to handle day change in the dropdown
   const handleDayChange = (e) => {
     setSelectedDay(e.target.value);
+    // Clear tasks when a different day is selected
+    setTasks([]);
+     // Reset the "No tasks" message
+    setShowNoTasks(false);
   };
 
+  // Function to handle form submission and fetch tasks from the backend API
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/api/tasks/day/${selectedDay}/`,
         { withCredentials: true }
       );
+      
       setTasks(response.data);
       setError(null);
 
+      // Show the "No tasks" message if no tasks are found
+      // Hide the "No tasks" message if tasks are found
       if (response.data.length === 0) {
-        setShowNoTasks(true);
-        setTimeout(() => setShowNoTasks(false), 1500);
+        setShowNoTasks(true); 
       } else {
-        setShowNoTasks(false);
+        setShowNoTasks(false); 
       }
     } catch (error) {
-      console.error(error);
-      setError('Failed to fetch tasks for the selected day.');
-      setTasks([]);
+      
+      console.error(error); 
+      setError('Failed to fetch tasks for the selected day.'); 
+      setTasks([]); 
       setShowNoTasks(false);
     }
   };
@@ -59,11 +69,9 @@ const SchedulePage = () => {
                 ))}
               </Select>
             </FormControl>
-
             <Button type="submit" colorScheme="teal" className="schedule-button">
               Get Tasks
             </Button>
-
             {error && (
               <Text className="error-message">
                 {error}
@@ -72,29 +80,27 @@ const SchedulePage = () => {
           </VStack>
         </form>
       </Box>
-
       <Box className="task-list-wrapper">
-  <Heading className="task-list-title">Task List:</Heading>
-  {tasks.length > 0 ? (
-    <UnorderedList className="task-list">
-      {tasks.map((task, index) => (
-        <ListItem key={index} className="task-card">
-          <Text className="task-title">{task.title}</Text>
-          <span className="task-info"><strong>Time:</strong> {task.time_of_day}</span>
-          <span className="task-info"><strong>Room:</strong> {task.room}</span>
-          <span className="task-info"><strong>Item:</strong> {task.description}</span>
-        </ListItem>
-      ))}
-    </UnorderedList>
-  ) : (
-    showNoTasks && (
-      <Text className="no-tasks-message">
-        You don't have any tasks assigned for {selectedDay}.
-      </Text>
-    )
-  )}
-</Box>
-
+        <Heading className="task-list-title">Task List:</Heading>
+        {tasks.length > 0 ? (
+          <UnorderedList className="task-list">
+            {tasks.map((task, index) => (
+              <ListItem key={index} className="task-card">
+                <Text className="task-title">{task.title}</Text>
+                <span className="task-info"><strong>Time:</strong> {task.time_of_day}</span>
+                <span className="task-info"><strong>Room:</strong> {task.room}</span>
+                <span className="task-info"><strong>Item:</strong> {task.description}</span>
+              </ListItem>
+            ))}
+          </UnorderedList>
+        ) : (
+          showNoTasks && (
+            <Text className="no-tasks-message">
+              You don't have any tasks assigned for {selectedDay}.
+            </Text>
+          )
+        )}
+      </Box>
     </Box>
   );
 };
