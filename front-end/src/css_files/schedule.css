@@ -70,13 +70,14 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
   gap: 1rem;
   flex-wrap: wrap;
   width: 100%;
   max-width: 2400px;
-  text-align: left;
-  align-items: center;
+  text-align: center; /* Center text inside task-card */
+  position: relative;
 }
 
 .task-info {
@@ -85,12 +86,20 @@
   text-overflow: ellipsis;
   font-size: 1rem;
   margin-right: 0.5rem;
+  flex-basis: 100%; /* Allow items to stack on top of each other */
+  max-width: 300px; /* Optional, can be adjusted */
+  text-align: center; /* Center task info */
 }
 
 .task-title {
   font-weight: bold;
   font-size: 1.3rem;
+  flex-basis: 100%; /* Ensure title is on a separate line */
+  margin-bottom: 0.5rem; /* Spacing between title and other info */
+  text-align: center; /* Center task title */
 }
+
+
 
 .no-tasks-message {
   text-align: center;
