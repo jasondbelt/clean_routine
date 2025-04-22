@@ -85,7 +85,7 @@ const AddRoomsPage = () => {
   };
 
   return (
-    <Box p="2rem" bg="#f4f4f9"> {/* Added background color for the page */}
+    <Box p="2rem" bg="#f4f4f9">
       <Heading className="centered-heading" mb="1rem">Room Manager</Heading>
 
       <Box mb="3rem">
