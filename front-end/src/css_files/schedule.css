@@ -39,7 +39,7 @@
 
 .task-list-wrapper {
   width: 100%;
-  max-width: 2600px; /* Increased max-width to accommodate more content */
+  max-width: 2600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -70,21 +70,21 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;  /* Space between items */
-  gap: 1rem; /* Moderate gap between the elements */
+  justify-content: space-between;
+  gap: 1rem;
   flex-wrap: wrap;
-  width: 100%;  /* Ensure it takes full width */
-  max-width: 2400px; /* Increased width of task cards */
+  width: 100%;
+  max-width: 2400px;
   text-align: left;
-  align-items: center;  /* Center items vertically */
+  align-items: center;
 }
 
 .task-info {
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1rem;
-  margin-right: 0.5rem; /* Small margin for tighter alignment */
+  margin-right: 0.5rem;
 }
 
 .task-title {

@@ -21,9 +21,7 @@ const SchedulePage = () => {
   // Function to handle day change in the dropdown
   const handleDayChange = (e) => {
     setSelectedDay(e.target.value);
-    // Clear tasks when a different day is selected
     setTasks([]);
-     // Reset the "No tasks" message
     setShowNoTasks(false);
   };
 
@@ -36,18 +34,12 @@ const SchedulePage = () => {
         { withCredentials: true }
       );
       
+      // Show the "No tasks" message if no tasks are found
+      //  Hide the "No tasks" message if tasks are found
       setTasks(response.data);
       setError(null);
-
-      // Show the "No tasks" message if no tasks are found
-      // Hide the "No tasks" message if tasks are found
-      if (response.data.length === 0) {
-        setShowNoTasks(true); 
-      } else {
-        setShowNoTasks(false); 
-      }
+      setShowNoTasks(response.data.length === 0);
     } catch (error) {
-      
       console.error(error); 
       setError('Failed to fetch tasks for the selected day.'); 
       setTasks([]); 
@@ -106,3 +98,4 @@ const SchedulePage = () => {
 };
 
 export default SchedulePage;
+
