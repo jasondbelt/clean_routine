@@ -84,8 +84,6 @@ const AddRoomsPage = () => {
     setRoomName(e.target.value);
   };
 
-  // ... (imports and other code unchanged)
-
   return (
     <Box p="2rem" bg="#f4f4f9">
       <Heading className="centered-heading" mb="1rem">Room Manager</Heading>
@@ -121,7 +119,7 @@ const AddRoomsPage = () => {
       <Box>
         <SimpleGrid columns={[1, 2, 3]} spacing="1.5rem">
           {rooms.map((room, index) => (
-            <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4" bg="#f9f9f9"> {/* Added background color to card */}
+            <Card key={index} maxW="sm" boxShadow="md" borderRadius="md" p="4" bg="#f9f9f9"> 
               <CardHeader>
                 <Flex justify="space-between" align="center">
                   {editingRoom === room.room_name ? (
