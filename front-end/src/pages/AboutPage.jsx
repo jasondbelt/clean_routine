@@ -12,7 +12,7 @@ const AboutPage = () => {
         What if cleaning could be simple, automatic, and stress-free?
       </p>
 
-      <h3 className="subheading">Here's how Routine Clean helps:</h3>
+      <h3 className="subheading">Here's how Clean Routine helps:</h3>
       <ul className="feature-list">
         <li>✔ Easy daily systems to keep things tidy</li>
         <li>✔ Routines that match your lifestyle</li>
