@@ -4,7 +4,7 @@ import '../css_files/about.css'
 const AboutPage = () => {
   return (
     <div className="about-section">
-      <h2 className="section-title">About Routine Clean</h2>
+      <h2 className="section-title">About Clean Routine</h2>
       <p className="section-text">
         Keeping your home clean shouldn't feel like a full-time job. Most of us clean reactively—waiting for messes to pile up before tackling them. It’s exhausting, time-consuming, and never truly done.
       </p>
