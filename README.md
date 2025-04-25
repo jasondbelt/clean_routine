@@ -6,8 +6,8 @@ Most people clean reactively—waiting until messes pile up—making the process
 
 ---
 
-# Video Demo
-- https://www.youtube.com/watch?v=nAaz7MnPEg4
+## Video Demo
+- https://youtu.be/n6GclOfTqJ0
 
 ## ✨ Features
 
